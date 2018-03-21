@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">SchemeComponent</string>
+    <string name="working_time_format" translatable="false">hh:mm</string>
+</resources>

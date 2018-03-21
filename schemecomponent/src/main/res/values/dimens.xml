@@ -1,0 +1,7 @@
+<resources>
+
+    <dimen name="table_list_table_size">144px</dimen>
+    <dimen name="table_list_icon_margin">30px</dimen>
+    <dimen name="table_table_capasity_size">5sp</dimen>
+
+</resources>
