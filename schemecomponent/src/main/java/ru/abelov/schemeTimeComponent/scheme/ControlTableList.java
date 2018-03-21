@@ -1,4 +1,4 @@
-package ru.abelov.schemecomponent;
+package ru.abelov.schemeTimeComponent.scheme;
 
 import android.accounts.NetworkErrorException;
 import android.content.Context;
@@ -25,8 +25,13 @@ import com.squareup.picasso.Target;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.abelov.schemecomponent.entity.SectionEntity;
-import ru.abelov.schemecomponent.entity.TableEntity;
+import ru.abelov.schemeTimeComponent.OnTableSelectListener;
+import ru.abelov.schemeTimeComponent.R;
+import ru.abelov.schemeTimeComponent.TableStatusData;
+import ru.abelov.schemeTimeComponent.entity.SectionEntity;
+import ru.abelov.schemeTimeComponent.entity.TableEntity;
+import ru.abelov.schemeTimeComponent.timepicker.HorizontalPicker;
+import ru.abelov.schemeTimeComponent.timepicker.HorizontalPickerAdapter;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -91,14 +96,19 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
 
     }
 
-
-    public void setListener(OnTableSelectListener listener) {
-        this.listener = listener;
+    private void init(Builder builder) {
+        this.listener = builder.listener;
+        this.data = builder.tableStatusData;
+        this.tableList = builder.section.tables;
     }
 
-    public void setData(TableStatusData data) {
-        this.data = data;
-    }
+//    public void setListener(OnTableSelectListener listener) {
+//        this.listener = listener;
+//    }
+//
+//    public void setData(TableStatusData data) {
+//        this.data = data;
+//    }
 
 
     public void onTimeChanged() {
@@ -388,6 +398,37 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
             });
 
             return true;
+        }
+    }
+
+    public static class Builder {
+        private ControlTableList cPlace;
+        private OnTableSelectListener listener;
+        private SectionEntity section;
+        private TableStatusData tableStatusData;
+
+        public Builder(ControlTableList cPlace) {
+            this.cPlace = cPlace;
+        }
+
+        public Builder setListener(OnTableSelectListener listener) {
+            this.listener = listener;
+            return this;
+        }
+
+        public Builder setTimeLine(SectionEntity section) {
+            this.section = section;
+            return this;
+        }
+
+        public Builder setTableStatusData(TableStatusData tableStatusData) {
+            this.tableStatusData = tableStatusData;
+            return this;
+        }
+
+        public Builder build() {
+            cPlace.init(this);
+            return this;
         }
     }
 

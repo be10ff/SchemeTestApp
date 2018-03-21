@@ -1,4 +1,4 @@
-package ru.abelov.schemecomponent;
+package ru.abelov.schemeTimeComponent.scheme;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,11 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import com.squareup.picasso.Picasso;
-import ru.abelov.schemecomponent.entity.TableEntity;
+
+import ru.abelov.schemeTimeComponent.OnTableSelectListener;
+import ru.abelov.schemeTimeComponent.R;
+import ru.abelov.schemeTimeComponent.TableStatusData;
+import ru.abelov.schemeTimeComponent.entity.TableEntity;
 
 public class ControlTable extends FrameLayout {
 

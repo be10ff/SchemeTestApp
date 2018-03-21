@@ -1,4 +1,4 @@
-package ru.abelov.schemecomponent.entity;
+package ru.abelov.schemeTimeComponent.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;

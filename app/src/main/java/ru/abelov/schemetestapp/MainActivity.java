@@ -8,28 +8,24 @@ import com.google.gson.Gson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import ru.abelov.schemecomponent.ControlTableList;
-import ru.abelov.schemecomponent.OnTableSelectListener;
-import ru.abelov.schemecomponent.TableStatusData;
-import ru.abelov.schemecomponent.entity.SectionEntity;
-import ru.abelov.schemecomponent.entity.Store;
-import ru.abelov.schemecomponent.entity.TableEntity;
+import ru.abelov.schemeTimeComponent.scheme.ControlTableList;
+import ru.abelov.schemeTimeComponent.OnTableSelectListener;
+import ru.abelov.schemeTimeComponent.TableStatusData;
+import ru.abelov.schemeTimeComponent.entity.SectionEntity;
+import ru.abelov.schemeTimeComponent.entity.Store;
+import ru.abelov.schemeTimeComponent.entity.TableEntity;
+import ru.abelov.schemeTimeComponent.timepicker.DatePickerListener;
+import ru.abelov.schemeTimeComponent.timepicker.HorizontalPicker;
 
 public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.cTableList)
     ControlTableList cPlace;
 
+    @BindView(R.id.datePicker)
+    HorizontalPicker picker;
+
     TableStatusData data;
-
-    private OnTableSelectListener listener = new OnTableSelectListener() {
-        @Override
-        public void onTableSelect(TableEntity table) {
-
-        }
-    };
-
-    private SectionEntity section;
 
     private Unbinder unbinder;
 
@@ -38,10 +34,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
-//        section = new Gson().fromJson("{\"id\":77,\"brandId\":4,\"storeId\":8,\"name\":\"Малый зал\",\"schemaImg\":\"/image-resource/schema/it_st_1508833700856_Схема_Fanny_Kabany_студия_1.jpg\",\"adminId\":\"\",\"ordinal\":0,\"tables\":[{\"id\":1028,\"brandId\":4,\"storeId\":8,\"sectionId\":77,\"ordinal\":0,\"name\":\"Столик у окна\",\"enabled\":true,\"orderEnabled\":true,\"posNo\":\"\",\"orderId\":null,\"masterTableNo\":null,\"adminId\":\"\",\"capacity\":6,\"mapX\":261,\"mapY\":37,\"imagePath\":\"http://img.bakapp.ru/image/table/instance/file?instance=11\",\"tableStatuses\":[{\"id\":439,\"tableId\":1028,\"userId\":428,\"orderBegin\":1522243215000,\"orderEnd\":1522243515000}],\"deposit\":1.0,\"used\":false},{\"id\":1029,\"brandId\":4,\"storeId\":8,\"sectionId\":77,\"ordinal\":0,\"name\":\"Столик у сцены\",\"enabled\":true,\"orderEnabled\":true,\"posNo\":\"\",\"orderId\":null,\"masterTableNo\":null,\"adminId\":\"\",\"capacity\":6,\"mapX\":727,\"mapY\":217,\"imagePath\":\"http://img.bakapp.ru/image/table/instance/file?instance=11\",\"tableStatuses\":null,\"deposit\":4300.0,\"used\":false},{\"id\":1296,\"brandId\":4,\"storeId\":8,\"sectionId\":77,\"ordinal\":0,\"name\":\"Златый\",\"enabled\":true,\"orderEnabled\":true,\"posNo\":\"\",\"orderId\":null,\"masterTableNo\":null,\"adminId\":\"\",\"capacity\":4,\"mapX\":627,\"mapY\":57,\"imagePath\":\"http://img.bakapp.ru/image/table/instance/file?instance=11\",\"tableStatuses\":null,\"deposit\":1.0,\"used\":false},{\"id\":1363,\"brandId\":4,\"storeId\":8,\"sectionId\":77,\"ordinal\":0,\"name\":\"\",\"enabled\":true,\"orderEnabled\":true,\"posNo\":\"\",\"orderId\":null,\"masterTableNo\":null,\"adminId\":\"\",\"capacity\":4,\"mapX\":447,\"mapY\":91,\"imagePath\":\"\n" +
-//                "03-21 11:59:38.478 5832-5858/com.bak.app D/OkHttp: http://img.bakapp.ru/image/table/instance/file?instance=11\",\"tableStatuses\":null,\"deposit\":0.0,\"used\":false},{\"id\":1364,\"brandId\":4,\"storeId\":8,\"sectionId\":77,\"ordinal\":0,\"name\":\"\",\"enabled\":true,\"orderEnabled\":true,\"posNo\":\"\",\"orderId\":null,\"masterTableNo\":null,\"adminId\":\"\",\"capacity\":4,\"mapX\":567,\"mapY\":171,\"imagePath\":\"http://img.bakapp.ru/image/table/instance/file?instance=11\",\"tableStatuses\":null,\"deposit\":0.0,\"used\":false}]},{\"id\":79,\"brandId\":4,\"storeId\":8,\"name\":\"Доставка\",\"schemaImg\":null,\"adminId\":\"\",\"ordinal\":0,\"tables\":null}", SectionEntity.class);
 
-        section = new Gson().fromJson("{\n" +
+        SectionEntity section = new Gson().fromJson("{\n" +
                 "   \"id\":77,\n" +
                 "   \"brandId\":4,\n" +
                 "   \"storeId\":8,\n" +
@@ -173,10 +167,39 @@ public class MainActivity extends AppCompatActivity {
         data = new TableStatusData(this, 1521622772773L, store, 1521622772773L, 1800000L, 3600000L, 2);
 
 
-        cPlace.setListener(listener);
+        new ControlTableList.Builder(cPlace)
+                .setListener(new OnTableSelectListener(){
+                    @Override
+                    public void onTableSelect(TableEntity table) {
 
-        cPlace.setData(data);
-        cPlace.setSection(section);
+                    }
+                })
+                .setTableStatusData(data)
+                .setTimeLine(section)
+                .build();
+
+        new HorizontalPicker.Builder(picker)
+                .setListener(new DatePickerListener() {
+                    @Override
+                    public void onTimeChanged() {
+
+                    }
+
+                    @Override
+                    public void onTimeSelected(long start) {
+
+                    }
+
+                    @Override
+                    public void onOrder(long orderStart, long orderStop, TableEntity table) {
+
+                    }
+                })
+                .setTimeLine(data.generateTimeLine())
+                .setTableStatusData(data)
+                .build()
+                .setInitialPosition();
+
     }
 
     @Override

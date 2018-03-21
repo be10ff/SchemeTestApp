@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--booking-->
+    <color name="datapickerGray">#757575</color>
+    <color name="datapickerOrange">#ef6c00</color>
+    <color name="datapickerRed">#ef5350</color>
+    <color name="datapickerGreen">#66bb6a</color>
+    <color name="datapickerDark">#485156</color>
+    <color name="datapickerWhiteSemitransparent">#bdbdbd</color>
+    <color name="white">#ffffff</color>
+    <color name="transparent">#64000000</color>
+</resources>

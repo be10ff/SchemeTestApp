@@ -1,4 +1,4 @@
-package ru.abelov.schemecomponent.ui;
+package ru.abelov.schemeTimeComponent.ui;
 
 
 import android.content.Context;

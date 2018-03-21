@@ -1,7 +1,7 @@
-package ru.abelov.schemecomponent;
+package ru.abelov.schemeTimeComponent;
 
 
-import ru.abelov.schemecomponent.entity.TableEntity;
+import ru.abelov.schemeTimeComponent.entity.TableEntity;
 
 /**
  * Created by artem on 07.07.17.

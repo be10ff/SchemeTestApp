@@ -1,4 +1,4 @@
-package ru.abelov.schemecomponent;
+package ru.abelov.schemeTimeComponent;
 
 
 import android.app.AlarmManager;
@@ -12,10 +12,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import ru.abelov.schemecomponent.entity.Hour;
-import ru.abelov.schemecomponent.entity.Store;
-import ru.abelov.schemecomponent.entity.TableEntity;
-import ru.abelov.schemecomponent.entity.TableStatusesEntity;
+import ru.abelov.schemeTimeComponent.entity.Hour;
+import ru.abelov.schemeTimeComponent.entity.Store;
+import ru.abelov.schemeTimeComponent.entity.TableEntity;
+import ru.abelov.schemeTimeComponent.entity.TableStatusesEntity;
 
 
 /**

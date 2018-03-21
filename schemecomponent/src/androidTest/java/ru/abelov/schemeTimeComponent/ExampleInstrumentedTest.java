@@ -1,4 +1,4 @@
-package ru.abelov.schemecomponent;
+package ru.abelov.schemeTimeComponent;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
