@@ -2,6 +2,7 @@ package ru.abelov.schemeTimeComponent.scheme;
 
 import android.accounts.NetworkErrorException;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
@@ -46,10 +47,8 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
 
     private static final int INVALID_POINTER_ID = -1;
 
-//    @BindView(R.id.ivScheme)
     public ImageView ivScheme;
 
-//    @BindView(R.id.hScroll)
     public HorizontalScrollView hScroll;
 
 //    @BindView(R.id.vScroll)
@@ -94,6 +93,14 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
         tableList = new ArrayList<>();
         controls = new ArrayList<>();
 
+        init(context, attrs);
+    }
+
+    private void init(Context context, AttributeSet attrs)
+    {
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ControlTable);
+
+        a.recycle();
     }
 
     private void init(Builder builder) {
@@ -250,6 +257,7 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
 
         if (tableList != null) {
             for (TableEntity table : tableList) {
+                ControlTable.Builder = new ControlTable.Builder(new ControlTable(container, this, table, data));
                 add(new ControlTable(container, this, table, data));
             }
         }

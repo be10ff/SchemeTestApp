@@ -1,6 +1,7 @@
 package ru.abelov.schemeTimeComponent.timepicker;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
@@ -21,8 +22,19 @@ import ru.abelov.schemeTimeComponent.entity.Hour;
 
 public class HorizontalPicker extends LinearLayout implements HorizontalPickerListener, OnItemClickedListener {
 
-    RecyclerView rvDays;
+    //ui
+    private int transparentColor;
+    private int primaryTextColor;
+    private int disableTextColor;
+    private int disableColor;
+    private int enableColor;
+    private int selectionColor;
+    private int buzyColor;
 
+    private int backgroundDay;
+    private int backgroundPastDay;
+
+    RecyclerView rvDays;
     View vHover;
 
     private DatePickerListener listener;
@@ -30,6 +42,7 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
     private LinearLayoutManager layoutManager;
     private TableStatusData tableStatusData;
     private List<Hour> timeLine;
+
     private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -52,20 +65,36 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
         }
     };
 
-    public HorizontalPicker(Context context) {
-        super(context);
-        internInit();
-    }
 
     public HorizontalPicker(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        init(context, attrs);
         internInit();
 
     }
 
     public HorizontalPicker(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        init(context, attrs);
         internInit();
+    }
+
+    private void init(Context context, AttributeSet attrs)
+    {
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.HorizontalPicker);
+
+        transparentColor = a.getInt(R.styleable.HorizontalPicker_transparent_color, R.color.transparent);
+        primaryTextColor = a.getInt(R.styleable.HorizontalPicker_primary_text_color, R.color.transparent);
+        disableTextColor = a.getInt(R.styleable.HorizontalPicker_disable_text_color, R.color.transparent);
+        disableColor = a.getInt(R.styleable.HorizontalPicker_disable_color, R.color.transparent);
+        enableColor = a.getInt(R.styleable.HorizontalPicker_enable_color, R.color.transparent);
+        selectionColor = a.getInt(R.styleable.HorizontalPicker_selection_color, R.color.transparent);
+        buzyColor = a.getInt(R.styleable.HorizontalPicker_buzy_color, R.color.transparent);
+
+        backgroundDay = a.getInt(R.styleable.HorizontalPicker_background_day_drawable, R.color.transparent);
+        backgroundPastDay = a.getInt(R.styleable.HorizontalPicker_background_past_day_drawable, R.color.transparent);
+
+        a.recycle();
     }
 
     private void internInit() {
@@ -125,9 +154,22 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
         timeLine = builder.timeLine;
         tableStatusData = builder.tableStatusData;
         adapter = new HorizontalPickerAdapter.Builder(getContext())
+                //data
                 .setTimeLine(timeLine)
                 .setListener(this)
                 .setTableStatusData(tableStatusData)
+                //ui
+                .setTransparentColor(transparentColor)
+                .setPrimaryTextColor(primaryTextColor)
+                .setDisableTextColor(disableTextColor)
+                .setEnableColor(enableColor)
+                .setDisableColor(disableColor)
+                .setSelectionColor(selectionColor)
+                .setBuzyColor(buzyColor)
+
+                .setDayBackgroundId(backgroundDay)
+                .setPastDayBackgroundId(backgroundPastDay)
+
                 .build();
         adapter.notifyDataSetChanged();
         rvDays.setAdapter(adapter);

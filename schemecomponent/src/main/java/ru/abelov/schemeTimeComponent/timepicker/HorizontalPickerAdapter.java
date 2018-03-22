@@ -17,13 +17,20 @@ import ru.abelov.schemeTimeComponent.entity.Hour;
 
 public class HorizontalPickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final int primaryTextColor;
-    private final int disableTextColor;
     private OnItemClickedListener listener;
     private Context context;
     private List<Hour> items;
     private TableStatusData tableStatusData;
+    private int transparentColor;
+    private int primaryTextColor;
+    private int disableTextColor;
+    private int disableColor;
+    private int enableColor;
+    private int selectionColor;
+    private int buzyColor;
 
+    private int backgroundDay;
+    private int backgroundPastDay;
 
     public HorizontalPickerAdapter(Builder builder) {
         this.context = builder.context;
@@ -31,8 +38,17 @@ public class HorizontalPickerAdapter extends RecyclerView.Adapter<RecyclerView.V
         items = builder.timeLine;
         this.listener = builder.listener;
         this.tableStatusData = builder.tableStatusData;
-        this.primaryTextColor = context.getResources().getColor(R.color.white);
-        this.disableTextColor = context.getResources().getColor(R.color.datapickerWhiteSemitransparent);
+
+        this.transparentColor = builder.transparentColor;
+        this.primaryTextColor = builder.primaryTextColor;
+        this.disableTextColor = builder.disableTextColor;
+        this.disableColor = builder.disableColor;
+        this.enableColor = builder.enableColor;
+        this.selectionColor = builder.selectionColor;
+        this.buzyColor = builder.buzyColor;
+
+        this.backgroundDay = builder.backgroundDay;
+        this.backgroundPastDay = builder.backgroundPastDay;
     }
 
     @Override
@@ -53,48 +69,48 @@ public class HorizontalPickerAdapter extends RecyclerView.Adapter<RecyclerView.V
         TimeTableHolder holder = (TimeTableHolder) h;
         holder.tvTime.setText(item.getTime());
 
-        holder.vLeft.setBackgroundResource(R.color.transparent);
-        holder.vRight.setBackgroundResource(R.color.transparent);
-        holder.vBottomLeft.setBackgroundResource(R.color.transparent);
-        holder.vBottomRight.setBackgroundResource(R.color.transparent);
+        holder.vLeft.setBackgroundResource(transparentColor);
+        holder.vRight.setBackgroundResource(transparentColor);
+        holder.vBottomLeft.setBackgroundResource(transparentColor);
+        holder.vBottomRight.setBackgroundResource(transparentColor);
 
         switch (tableStatusData.getGray(item.getMillis())) {
             case 0b11:
-                holder.vLeft.setBackgroundResource(R.color.datapickerGray);
-                holder.vRight.setBackgroundResource(R.color.datapickerGray);
-                holder.tvTime.setBackgroundResource(R.drawable.background_day_past_transparent);
+                holder.vLeft.setBackgroundResource(disableColor);
+                holder.vRight.setBackgroundResource(disableColor);
+                holder.tvTime.setBackgroundResource(backgroundPastDay);
                 holder.tvTime.setTextColor(disableTextColor);
                 break;
             case 0b10:
-                holder.vLeft.setBackgroundResource(R.color.datapickerGray);
-                holder.vRight.setBackgroundResource(R.color.datapickerDark);
-                holder.tvTime.setBackgroundResource(R.drawable.background_day_transparent);
+                holder.vLeft.setBackgroundResource(disableColor);
+                holder.vRight.setBackgroundResource(enableColor);
+                holder.tvTime.setBackgroundResource(backgroundDay);
                 holder.tvTime.setTextColor(primaryTextColor);
                 break;
             case 0b01:
-                holder.vLeft.setBackgroundResource(R.color.datapickerDark);
-                holder.vRight.setBackgroundResource(R.color.datapickerGray);
-                holder.tvTime.setBackgroundResource(R.drawable.background_day_transparent);
+                holder.vLeft.setBackgroundResource(enableColor);
+                holder.vRight.setBackgroundResource(disableColor);
+                holder.tvTime.setBackgroundResource(backgroundDay);
                 holder.tvTime.setTextColor(primaryTextColor);
                 break;
             default:
-                holder.vLeft.setBackgroundResource(R.color.datapickerDark);
-                holder.vRight.setBackgroundResource(R.color.datapickerDark);
-                holder.tvTime.setBackgroundResource(R.drawable.background_day_transparent);
+                holder.vLeft.setBackgroundResource(enableColor);
+                holder.vRight.setBackgroundResource(enableColor);
+                holder.tvTime.setBackgroundResource(backgroundDay);
                 holder.tvTime.setTextColor(primaryTextColor);
                 break;
         }
 
         switch (tableStatusData.getOrange(item.getMillis())) {
             case 0b01:
-                holder.vRight.setBackgroundResource(R.color.datapickerGreen);
+                holder.vRight.setBackgroundResource(selectionColor);
                 break;
             case 0b11:
-                holder.vLeft.setBackgroundResource(R.color.datapickerGreen);
-                holder.vRight.setBackgroundResource(R.color.datapickerGreen);
+                holder.vLeft.setBackgroundResource(selectionColor);
+                holder.vRight.setBackgroundResource(selectionColor);
                 break;
             case 0b10:
-                holder.vLeft.setBackgroundResource(R.color.datapickerGreen);
+                holder.vLeft.setBackgroundResource(selectionColor);
                 break;
 //            case 0b00:
 //                holder.vLeft.setBackgroundResource(R.color.datapickerGreen);
@@ -104,14 +120,14 @@ public class HorizontalPickerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         switch (tableStatusData.getVacant(item.getMillis())) {
             case 0b11:
-                holder.vBottomLeft.setBackgroundResource(R.color.datapickerRed);
-                holder.vBottomRight.setBackgroundResource(R.color.datapickerRed);
+                holder.vBottomLeft.setBackgroundResource(buzyColor);
+                holder.vBottomRight.setBackgroundResource(buzyColor);
                 break;
             case 0b10:
-                holder.vBottomLeft.setBackgroundResource(R.color.datapickerRed);
+                holder.vBottomLeft.setBackgroundResource(buzyColor);
                 break;
             case 0b01:
-                holder.vBottomRight.setBackgroundResource(R.color.datapickerRed);
+                holder.vBottomRight.setBackgroundResource(buzyColor);
                 break;
 
         }
@@ -136,9 +152,75 @@ public class HorizontalPickerAdapter extends RecyclerView.Adapter<RecyclerView.V
         private Context context;
         private OnItemClickedListener listener;
         private List<Hour> timeLine;
+        private int transparentColor;
+        private int primaryTextColor;
+        private int disableTextColor;
+        private int disableColor;
+        private int enableColor;
+        private int selectionColor;
+        private int buzyColor;
+
+        private int backgroundDay;
+        private int backgroundPastDay;
+
 
         public Builder(Context context) {
             this.context = context;
+            transparentColor = R.color.transparent;
+            primaryTextColor = R.color.white;
+            disableTextColor = R.color.datapickerWhiteSemitransparent;
+            disableColor = R.color.datapickerGray;
+            enableColor = R.color.datapickerDark;
+            selectionColor = R.color.datapickerGreen;
+            buzyColor = R.color.datapickerRed;
+
+            backgroundDay = R.drawable.background_day_transparent;
+            backgroundPastDay = R.drawable.background_day_past_transparent;
+        }
+
+        public Builder setTransparentColor(int colorResId){
+            this.transparentColor = colorResId;
+            return this;
+        }
+
+        public Builder setPrimaryTextColor(int colorResId){
+            this.primaryTextColor = colorResId;
+            return this;
+        }
+
+        public Builder setDisableTextColor(int colorResId){
+            this.disableTextColor = colorResId;
+            return this;
+        }
+
+        public Builder setEnableColor(int colorResId){
+            this.enableColor = colorResId;
+            return this;
+        }
+
+        public Builder setDisableColor(int colorResId){
+            this.disableColor = colorResId;
+            return this;
+        }
+
+        public Builder setSelectionColor(int colorResId){
+            this.selectionColor = colorResId;
+            return this;
+        }
+
+        public Builder setBuzyColor(int colorResId){
+            this.buzyColor = colorResId;
+            return this;
+        }
+
+        public Builder setDayBackgroundId(int drawableResId){
+            this.backgroundDay = drawableResId;
+            return this;
+        }
+
+        public Builder setPastDayBackgroundId(int drawableResId){
+            this.backgroundPastDay = drawableResId;
+            return this;
         }
 
         public Builder setListener(OnItemClickedListener listener) {

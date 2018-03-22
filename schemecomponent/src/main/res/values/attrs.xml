@@ -1,0 +1,60 @@
+<resources>
+    <declare-styleable name="sample">
+        <attr name="aspectRatioWidth" format="integer"/>
+        <attr name="bl_strokeWidth" format="dimension|reference" />
+        <attr name="bl_strokeColor" format="color|reference" />
+        <attr name="icon" format="reference" />
+        <attr name="text" format="string" />
+        <attr name="strokeWidth" />
+        <attr name="selected" format="boolean" />
+
+        <attr name="bl_arrowDirection" format="enum">
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+            <enum name="top" value="2" />
+            <enum name="bottom" value="3" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="ControlTable">
+        <!--<string name="working_time_format" translatable="false">hh:mm</string>-->
+        <attr name="external_time_format" format="string" />
+        <!--<dimen name="table_list_table_size">144px</dimen>-->
+        <attr name="table_list_table_size" format="dimension|reference" />
+        <!--<dimen name="table_list_icon_margin">30px</dimen>-->
+        <attr name="table_list_icon_margin" format="dimension|reference" />
+        <!--<dimen name="table_table_capasity_size">5sp</dimen>-->
+        <attr name="table_table_capasity_size" format="dimension|reference" />
+
+
+    </declare-styleable>
+
+    <declare-styleable name="HorizontalPicker">
+
+        <!--R.layout.re_control_horizontal_picker-->
+        <attr name="horizontal_picker_layout" format="reference" />
+        <!--R.layout.item_hour_picker-->
+        <attr name="horizontal_picker_item_layout" format="reference" />
+
+        <!--R.color.transparent-->
+        <attr name="transparent_color" format="color|reference" />
+        <!--R.color.white-->
+        <attr name="primary_text_color" format="color|reference" />
+        <!--R.color.datapickerWhiteSemitransparent-->
+        <attr name="disable_text_color" format="color|reference" />
+        <!--R.color.datapickerGray-->
+        <attr name="disable_color" format="color|reference" />
+        <!--R.color.datapickerDark-->
+        <attr name="enable_color" format="color|reference" />
+        <!--R.color.datapickerGreen-->
+        <attr name="selection_color" format="color|reference" />
+        <!--R.color.datapickerRed-->
+        <attr name="buzy_color" format="color|reference" />
+
+        <!--R.layout.item_hour_picker-->
+        <attr name="background_day_drawable" format="reference" />
+        <!--R.layout.item_hour_picker-->
+        <attr name="background_past_day_drawable" format="reference" />
+    </declare-styleable>
+
+</resources>

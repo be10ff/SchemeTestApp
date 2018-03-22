@@ -23,10 +23,10 @@ public class ControlTable extends FrameLayout {
 //    float textSize;
     private int width = 0;
     private int height = 0;
-    private int margin = 0;
+//    private int margin = 0;
     private float zoom = 1;
 
-    public ControlTable(final ViewGroup container, final OnTableSelectListener listener, final TableEntity tableInfo, TableStatusData data) {
+    public ControlTable(final ViewGroup container, final OnTableSelectListener listener, final TableEntity tableInfo, TableStatusData data, Builder builder) {
         super(container.getContext());
         View v = ((LayoutInflater) container.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.control_table, this);
         ivTable =/* (android.support.v7.widget.AppCompatImageView)*/v.findViewById(R.id.ivTable);
@@ -41,7 +41,8 @@ public class ControlTable extends FrameLayout {
             }
         });
 //        textSize = container.getContext().getResources().getDimension(R.dimen.table_table_capasity_size);
-        init();
+
+        init(builder);
     }
 
     public long getIndex() {
@@ -68,10 +69,10 @@ public class ControlTable extends FrameLayout {
 
     }
 
-    private void init() {
-        width = getContext().getResources().getDimensionPixelSize(R.dimen.table_list_table_size);
-        height = getContext().getResources().getDimensionPixelSize(R.dimen.table_list_table_size);
-        margin = getContext().getResources().getDimensionPixelSize(R.dimen.table_list_icon_margin);
+    private void init(Builder builder) {
+        width = builder.width;
+        height = builder.height;
+
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int) (width * zoom), (int) (height * zoom));
         setLayoutParams(params);
     }
@@ -229,6 +230,31 @@ public class ControlTable extends FrameLayout {
         }
 
         Picasso.with(getContext()).load(url).into(ivTable);
+    }
+
+    public static class Builder {
+        private ControlTable control;
+        private int width = 0;
+        private int height = 0;
+
+        public Builder(ControlTable control){
+            this.control = control;
+        }
+
+        public Builder setWidth(int width) {
+            this.width = width;
+            return this;
+        }
+
+        public Builder setHeight(int height) {
+            this.height = height;
+            return this;
+        }
+
+        public Builder build() {
+            control.init(this);
+            return this;
+        }
     }
 
 }
