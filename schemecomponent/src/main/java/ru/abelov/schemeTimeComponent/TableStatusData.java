@@ -16,6 +16,7 @@ import ru.abelov.schemeTimeComponent.entity.Hour;
 import ru.abelov.schemeTimeComponent.entity.ITable;
 import ru.abelov.schemeTimeComponent.entity.IStore;
 import ru.abelov.schemeTimeComponent.entity.IStatus;
+import ru.abelov.schemeTimeComponent.entity.IUser;
 
 
 /**
@@ -32,6 +33,8 @@ public class TableStatusData {
     private long interval;
     private int politics;
 
+    private IUser user;
+
     private ITable selectedTable;
     private long currentDate;
     private IStore store;
@@ -39,11 +42,12 @@ public class TableStatusData {
     private long duration;
 
 
-    public TableStatusData(Context context, long currentDate, IStore store, long orderStart, long interval, long delay, int politics, String timeFormat) {
+    public TableStatusData(Context context, long currentDate, IStore store, IUser user, long orderStart, long interval, long delay, int politics, String timeFormat) {
         this.context = context;
         this.currentDate = currentDate;
         this.store = store;
         this.delay = delay;
+        this.user = user;
         openTime = getWorkingTimeToday(store.getOrderBegin(), store.getTimeFormat(), 1000 * 60 * 60 * 8);
         closeTime = getWorkingTimeToday(store.getOrderEnd(), store.getTimeFormat(), 1000 * 60 * 60 * 23);
         this.orderStart = orderStart;
@@ -190,7 +194,7 @@ public class TableStatusData {
         if (table.getStatuses() != null) {
             for (IStatus status : table.getStatuses()) {
                 if (status.getOrderBegin() < orderStop && status.getOrderEnd() > orderStart
-                        && status.getUserId() == 321/*user.id*/)/*|| status.available == 1*/ {
+                        && status.getUserId() == user.getUserId()) {
                     return true;
                 }
             }

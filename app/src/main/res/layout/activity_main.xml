@@ -10,7 +10,24 @@
     <ru.abelov.schemeTimeComponent.timepicker.HorizontalPicker
         android:id="@+id/datePicker"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+
+        app:transparent_color="@color/transparent"
+        app:primary_text_color="@color/white"
+        app:disable_text_color="@color/datapickerWhiteSemitransparent"
+        app:disable_color="@color/datapickerGray"
+        app:enable_color="@color/datapickerDark"
+        app:selection_color="@color/datapickerGreen"
+        app:buzy_color="@color/datapickerRed"
+
+        app:background_day_drawable="@drawable/background_day_transparent"
+        app:background_past_day_drawable="@drawable/background_day_past_transparent"
+
+        app:left_arrow="@drawable/ic_w_left_arrow"
+        app:right_arrow="@drawable/ic_w_right_arrow"
+        app:plus_button="@drawable/ic_w_minus_booking"
+        app:minus_button="@drawable/ic_w_plus_booking"
+        />
 
     <ru.abelov.schemeTimeComponent.scheme.ControlTableList
         xmlns:android="http://schemas.android.com/apk/res/android"

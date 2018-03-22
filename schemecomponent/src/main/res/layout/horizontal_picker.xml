@@ -21,8 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="12dp"
-                android:src="@drawable/ic_w_left_arrow"
-                android:visibility="gone" />
+                android:src="@drawable/ic_w_left_arrow"/>
 
             <View
                 android:layout_width="1dp"
@@ -72,8 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="12dp"
-                android:src="@drawable/ic_w_right_arrow"
-                android:visibility="gone" />
+                android:src="@drawable/ic_w_right_arrow"/>
         </LinearLayout>
 
 

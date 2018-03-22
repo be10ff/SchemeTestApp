@@ -49,10 +49,8 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
 
     public HorizontalScrollView hScroll;
 
-//    @BindView(R.id.vScroll)
     public ScrollView vScroll;
 
-//    @BindView(R.id.rlContainer)
     public RelativeLayout container;
 
     List<ITable> tableList;
@@ -105,6 +103,7 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
         this.listener = builder.listener;
         this.data = builder.tableStatusData;
         this.tableList = builder.section.getTables();
+        setSection(builder.section);
     }
 
 //    public void setListener(OnTableSelectListener listener) {
@@ -180,7 +179,6 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
                                 height = bitmap.getHeight();
                                 ivScheme.setImageBitmap(bitmap);
                                 subscriber.onNext(new Pair<Integer, Integer>(width, height));
-//                                subscriber.onCompleted();
                             }
 
                             @Override
@@ -194,12 +192,15 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
                             }
                         };
                         ivScheme.setTag(target);
+//                        String url = "http://95.131.29.211//image-resource/schema/it_st_1519112334244_it_st_1510919471742_Схема_Fanny_white.jpg";
+
 //                        String url = section.schemaImg.replace(" ", "%20");  // 경로에 whitespace가 들어있을 때 url에서 사용될 수 있도록 변경
 //                        Settings settings = Settings.getInstance(context);
 //                        if (!url.startsWith("http://") || !url.startsWith("https://")) {
 //                            url = String.format("%s/%s", settings.CONNECTION_MODE.get(), url);
 //                        }
                         String url = section.getSectionURL();
+
                         url = "https://www.metrtv.ru/images/ads/photo_125554_6.jpg";
                         Picasso.with(context).load(url).into(target);
                     }

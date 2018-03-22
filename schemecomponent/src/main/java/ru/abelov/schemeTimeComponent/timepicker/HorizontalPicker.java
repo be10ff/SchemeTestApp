@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 
@@ -34,8 +35,18 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
     private int backgroundDay;
     private int backgroundPastDay;
 
+    private int leftArrow;
+    private int rightArrow;
+    private int plusButton;
+    private int minusButton;
+
     RecyclerView rvDays;
     View vHover;
+
+    ImageView ivLeft;
+    ImageView ivPlus;
+    ImageView ivRight;
+    ImageView ivMinus;
 
     private DatePickerListener listener;
     private HorizontalPickerAdapter adapter;
@@ -83,62 +94,103 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
     {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.HorizontalPicker);
 
-        transparentColor = a.getInt(R.styleable.HorizontalPicker_transparent_color, R.color.transparent);
-        primaryTextColor = a.getInt(R.styleable.HorizontalPicker_primary_text_color, R.color.transparent);
-        disableTextColor = a.getInt(R.styleable.HorizontalPicker_disable_text_color, R.color.transparent);
-        disableColor = a.getInt(R.styleable.HorizontalPicker_disable_color, R.color.transparent);
-        enableColor = a.getInt(R.styleable.HorizontalPicker_enable_color, R.color.transparent);
-        selectionColor = a.getInt(R.styleable.HorizontalPicker_selection_color, R.color.transparent);
-        buzyColor = a.getInt(R.styleable.HorizontalPicker_buzy_color, R.color.transparent);
+        transparentColor = a.getResourceId(R.styleable.HorizontalPicker_transparent_color, R.color.transparent);
+        primaryTextColor = a.getResourceId(R.styleable.HorizontalPicker_primary_text_color, R.color.white);
+        disableTextColor = a.getResourceId(R.styleable.HorizontalPicker_disable_text_color, R.color.datapickerWhiteSemitransparent);
+        disableColor = a.getResourceId(R.styleable.HorizontalPicker_disable_color, R.color.datapickerGray);
+        enableColor = a.getResourceId(R.styleable.HorizontalPicker_enable_color, R.color.datapickerDark);
+        selectionColor = a.getResourceId(R.styleable.HorizontalPicker_selection_color, R.color.datapickerGreen);
+        buzyColor = a.getResourceId(R.styleable.HorizontalPicker_buzy_color, R.color.datapickerRed);
 
-        backgroundDay = a.getInt(R.styleable.HorizontalPicker_background_day_drawable, R.color.transparent);
-        backgroundPastDay = a.getInt(R.styleable.HorizontalPicker_background_past_day_drawable, R.color.transparent);
+        backgroundDay = a.getResourceId(R.styleable.HorizontalPicker_background_day_drawable, R.drawable.background_day_transparent);
+        backgroundPastDay = a.getResourceId(R.styleable.HorizontalPicker_background_past_day_drawable, R.drawable.background_day_past_transparent);
+
+        leftArrow = a.getResourceId(R.styleable.HorizontalPicker_left_arrow, 0);
+        rightArrow = a.getResourceId(R.styleable.HorizontalPicker_right_arrow, 0);
+        plusButton = a.getResourceId(R.styleable.HorizontalPicker_plus_button, 0);
+        minusButton = a.getResourceId(R.styleable.HorizontalPicker_minus_button, 0);
 
         a.recycle();
     }
 
     private void internInit() {
-        View v = inflate(getContext(), R.layout.re_control_horizontal_picker, this);
+        View v = inflate(getContext(), R.layout.horizontal_picker, this);
         rvDays = v.findViewById(R.id.rvDays);
         vHover = v.findViewById(R.id.vHover);
 
-        v.findViewById(R.id.ivScrollLeft).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (layoutManager.findFirstVisibleItemPosition() < timeLine.size() - 2) {
-                    smoothScrollToPosition(layoutManager.findFirstVisibleItemPosition() + 2);
+//        ImageView ivLeft;
+//        ImageView ivPlus;
+//        ImageView ivRight;
+//        ImageView ivMinus;
+        ivLeft = v.findViewById(R.id.ivScrollLeft);
+        if(leftArrow != 0) {
+            ivLeft.setVisibility(VISIBLE);
+            ivLeft.setImageResource(leftArrow);
+            ivLeft.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (layoutManager.findFirstVisibleItemPosition() < timeLine.size() - 2) {
+                        smoothScrollToPosition(layoutManager.findFirstVisibleItemPosition() + 2);
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            ivLeft.setVisibility(GONE);
+        }
 
-        v.findViewById(R.id.ivIncreaseDuration).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (tableStatusData.changeDuration(1)) {
-                    adapter.notifyDataSetChanged();
-                    listener.onTimeChanged();
-                }
-            }
-        });
 
-        v.findViewById(R.id.ivScrollRight).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (layoutManager.findFirstVisibleItemPosition() < timeLine.size() - 2) {
-                    smoothScrollToPosition(layoutManager.findFirstVisibleItemPosition() + 2);
-                }
-            }
-        });
 
-        v.findViewById(R.id.ivDecreaseDuration).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (tableStatusData.changeDuration(-1)) {
-                    adapter.notifyDataSetChanged();
-                    listener.onTimeChanged();
+        ivPlus = v.findViewById(R.id.ivIncreaseDuration);
+        if(rightArrow != 0) {
+            ivPlus.setVisibility(VISIBLE);
+            ivPlus.setImageResource(plusButton);
+            ivPlus.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (tableStatusData.changeDuration(1)) {
+                        adapter.notifyDataSetChanged();
+                        listener.onTimeChanged();
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            ivPlus.setVisibility(GONE);
+        }
+
+
+        ivRight = v.findViewById(R.id.ivScrollRight);
+        if(plusButton != 0) {
+            ivRight.setVisibility(VISIBLE);
+            ivRight.setImageResource(rightArrow);
+            ivRight.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (layoutManager.findFirstVisibleItemPosition() > 1) {
+                        rvDays.getLayoutManager().scrollToPosition(layoutManager.findFirstVisibleItemPosition() - 2);
+                    }
+                }
+            });
+        } else {
+            ivRight.setVisibility(GONE);
+        }
+
+
+        ivMinus = v.findViewById(R.id.ivDecreaseDuration);
+        if(minusButton != 0) {
+            ivMinus.setVisibility(VISIBLE);
+            ivMinus.setImageResource(minusButton);
+            ivMinus.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (tableStatusData.changeDuration(-1)) {
+                        adapter.notifyDataSetChanged();
+                        listener.onTimeChanged();
+                    }
+                }
+            });
+        } else {
+            ivMinus.setVisibility(GONE);
+        }
 
         layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvDays.setLayoutManager(layoutManager);
@@ -249,7 +301,6 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
 
         @Override
         public int calculateDtToFit(int viewStart, int viewEnd, int boxStart, int boxEnd, int snapPreference) {
-//            return (boxStart - (boxEnd - boxStart) / 3) - (viewStart + (viewEnd - viewStart) / 2);
             return - viewStart;
         }
 

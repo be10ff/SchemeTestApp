@@ -55,6 +55,14 @@
         <attr name="background_day_drawable" format="reference" />
         <!--R.layout.item_hour_picker-->
         <attr name="background_past_day_drawable" format="reference" />
+
+        <attr name="left_arrow" format="reference" />
+
+        <attr name="right_arrow" format="reference" />
+
+        <attr name="plus_button" format="reference" />
+
+        <attr name="minus_button" format="reference" />
     </declare-styleable>
 
 </resources>

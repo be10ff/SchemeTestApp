@@ -79,25 +79,25 @@ public class HorizontalPickerAdapter extends RecyclerView.Adapter<RecyclerView.V
                 holder.vLeft.setBackgroundResource(disableColor);
                 holder.vRight.setBackgroundResource(disableColor);
                 holder.tvTime.setBackgroundResource(backgroundPastDay);
-                holder.tvTime.setTextColor(disableTextColor);
+                holder.tvTime.setTextColor( context.getResources().getColor(disableTextColor));
                 break;
             case 0b10:
                 holder.vLeft.setBackgroundResource(disableColor);
                 holder.vRight.setBackgroundResource(enableColor);
                 holder.tvTime.setBackgroundResource(backgroundDay);
-                holder.tvTime.setTextColor(primaryTextColor);
+                holder.tvTime.setTextColor( context.getResources().getColor(primaryTextColor));
                 break;
             case 0b01:
                 holder.vLeft.setBackgroundResource(enableColor);
                 holder.vRight.setBackgroundResource(disableColor);
                 holder.tvTime.setBackgroundResource(backgroundDay);
-                holder.tvTime.setTextColor(primaryTextColor);
+                holder.tvTime.setTextColor( context.getResources().getColor(primaryTextColor));
                 break;
             default:
                 holder.vLeft.setBackgroundResource(enableColor);
                 holder.vRight.setBackgroundResource(enableColor);
                 holder.tvTime.setBackgroundResource(backgroundDay);
-                holder.tvTime.setTextColor(primaryTextColor);
+                holder.tvTime.setTextColor( context.getResources().getColor(primaryTextColor));
                 break;
         }
 
