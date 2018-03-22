@@ -5,15 +5,19 @@ import android.os.Bundle;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import ru.abelov.schemeTimeComponent.entity.ISection;
+import ru.abelov.schemeTimeComponent.entity.IStatus;
+import ru.abelov.schemeTimeComponent.entity.IStore;
+import ru.abelov.schemeTimeComponent.entity.ITable;
 import ru.abelov.schemeTimeComponent.scheme.ControlTableList;
 import ru.abelov.schemeTimeComponent.OnTableSelectListener;
 import ru.abelov.schemeTimeComponent.TableStatusData;
-import ru.abelov.schemeTimeComponent.entity.SectionEntity;
-import ru.abelov.schemeTimeComponent.entity.Store;
-import ru.abelov.schemeTimeComponent.entity.TableEntity;
 import ru.abelov.schemeTimeComponent.timepicker.DatePickerListener;
 import ru.abelov.schemeTimeComponent.timepicker.HorizontalPicker;
 
@@ -35,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
 
-        SectionEntity section = new Gson().fromJson("{\n" +
+        final SectionEntity section = new Gson().fromJson("{\n" +
                 "   \"id\":77,\n" +
                 "   \"brandId\":4,\n" +
                 "   \"storeId\":8,\n" +
@@ -160,22 +164,106 @@ public class MainActivity extends AppCompatActivity {
                 "   ]\n" +
                 "}", SectionEntity.class);
 
-        Store store = new Store();
-        store.orderBegin = "0700";
-        store.orderEnd = "2300";
+        IStore store = new IStore() {
+            @Override
+            public String getOrderBegin() {
+                return "0700";
+            }
 
-        data = new TableStatusData(this, 1521622772773L, store, 1521622772773L, 1800000L, 3600000L, 2);
+            @Override
+            public String getOrderEnd() {
+                return "2300";
+            }
+
+            @Override
+            public String getTimeFormat() {
+                return "hh:mm";
+            }
+        };
+
+        ISection room = new ISection() {
+            @Override
+            public String getSectionURL() {
+                return section.schemaImg;
+            }
+
+            @Override
+            public List<ITable> getTables() {
+                List<ITable> list = new ArrayList<>();
+                for(final TableEntity t : section.tables){
+                    list.add(new ITable() {
+                        @Override
+                        public long getId() {
+                            return t.id;
+                        }
+
+                        @Override
+                        public int getX() {
+                            return t.mapX;
+                        }
+
+                        @Override
+                        public int getY() {
+                            return t.mapY;
+                        }
+
+                        @Override
+                        public int getCapacity() {
+                            return t.capacity;
+                        }
+
+                        @Override
+                        public String getImageUrl() {
+                            return t.imagePath;
+                        }
+
+                        @Override
+                        public List<IStatus> getStatuses() {
+                            List<IStatus> list = new ArrayList<>();
+                            for(final TableStatusesEntity s : t.tableStatuses){
+                                list.add(new IStatus() {
+                                    @Override
+                                    public int getUserId() {
+                                        return s.userId;
+                                    }
+
+                                    @Override
+                                    public long getOrderBegin() {
+                                        return s.orderBegin;
+                                    }
+
+                                    @Override
+                                    public long getOrderEnd() {
+                                        return s.orderEnd;
+                                    }
+                                });
+                            }
+                            return null;
+                        }
+                    });
+                }
+                return list;
+            }
+        };
+
+        data = new TableStatusData(this,
+                1521622772773L,
+                store, 1521622772773L,
+                1800000L,
+                3600000L,
+                2,
+                getResources().getString(R.string.working_time_format));
 
 
         new ControlTableList.Builder(cPlace)
                 .setListener(new OnTableSelectListener(){
                     @Override
-                    public void onTableSelect(TableEntity table) {
+                    public void onTableSelect(ITable table) {
 
                     }
                 })
                 .setTableStatusData(data)
-                .setTimeLine(section)
+                .setTimeLine(room)
                 .build();
 
         new HorizontalPicker.Builder(picker)
@@ -191,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onOrder(long orderStart, long orderStop, TableEntity table) {
+                    public void onOrder(long orderStart, long orderStop, ITable table) {
 
                     }
                 })

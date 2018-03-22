@@ -1,4 +1,4 @@
-package ru.abelov.schemeTimeComponent.entity;
+package ru.abelov.schemetestapp;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Locale;
 
 import ru.abelov.schemeTimeComponent.entity.Hour;
-import ru.abelov.schemeTimeComponent.entity.Store;
-import ru.abelov.schemeTimeComponent.entity.TableEntity;
-import ru.abelov.schemeTimeComponent.entity.TableStatusesEntity;
+import ru.abelov.schemeTimeComponent.entity.ITable;
+import ru.abelov.schemeTimeComponent.entity.IStore;
+import ru.abelov.schemeTimeComponent.entity.IStatus;
 
 
 /**
@@ -32,20 +32,20 @@ public class TableStatusData {
     private long interval;
     private int politics;
 
-    private TableEntity selectedTable;
+    private ITable selectedTable;
     private long currentDate;
-    private Store mStore;
+    private IStore store;
     private Context context;
     private long duration;
 
 
-    public TableStatusData(Context context, long currentDate, Store mStore, long orderStart, long interval, long delay, int politics) {
+    public TableStatusData(Context context, long currentDate, IStore store, long orderStart, long interval, long delay, int politics, String timeFormat) {
         this.context = context;
         this.currentDate = currentDate;
-        this.mStore = mStore;
+        this.store = store;
         this.delay = delay;
-        openTime = getWorkingTimeToday(mStore.orderBegin, context.getResources().getString(R.string.working_time_format), 1000 * 60 * 60 * 8);
-        closeTime = getWorkingTimeToday(mStore.orderEnd, context.getResources().getString(R.string.working_time_format), 1000 * 60 * 60 * 23);
+        openTime = getWorkingTimeToday(store.getOrderBegin(), store.getTimeFormat(), 1000 * 60 * 60 * 8);
+        closeTime = getWorkingTimeToday(store.getOrderEnd(), store.getTimeFormat(), 1000 * 60 * 60 * 23);
         this.orderStart = orderStart;
         this.interval = interval;
         this.politics = politics;
@@ -175,10 +175,10 @@ public class TableStatusData {
         return result;
     }
 
-    public boolean isBuzy(TableEntity table) {
-        if (table.tableStatuses != null) {
-            for (TableStatusesEntity status : table.tableStatuses) {
-                if (!(status.orderBegin >= orderStop || status.orderEnd <= orderStart)/*|| status.available == 1*/) {
+    public boolean isBuzy(ITable table) {
+        if (table.getStatuses() != null) {
+            for (IStatus status : table.getStatuses()) {
+                if (!(status.getOrderBegin() >= orderStop || status.getOrderEnd() <= orderStart)/*|| status.available == 1*/) {
                     return true;
                 }
             }
@@ -186,11 +186,11 @@ public class TableStatusData {
         return false;
     }
 
-    public boolean isMyBookingOrder(TableEntity table) {
-        if (table.tableStatuses != null) {
-            for (TableStatusesEntity status : table.tableStatuses) {
-                if (status.orderBegin < orderStop && status.orderEnd > orderStart
-                        && status.userId == 321/*user.id*/)/*|| status.available == 1*/ {
+    public boolean isMyBookingOrder(ITable table) {
+        if (table.getStatuses() != null) {
+            for (IStatus status : table.getStatuses()) {
+                if (status.getOrderBegin() < orderStop && status.getOrderEnd() > orderStart
+                        && status.getUserId() == 321/*user.id*/)/*|| status.available == 1*/ {
                     return true;
                 }
             }
@@ -254,15 +254,15 @@ public class TableStatusData {
     public int getVacant(long time) {
         int buzy = 0b00;
 
-        if (selectedTable != null && selectedTable.tableStatuses != null) {
-            for (TableStatusesEntity status : selectedTable.tableStatuses) {
-                if (status.orderBegin < time && status.orderEnd > time) {
+        if (selectedTable != null && selectedTable.getStatuses() != null) {
+            for (IStatus status : selectedTable.getStatuses()) {
+                if (status.getOrderBegin() < time && status.getOrderEnd() > time) {
                     buzy = buzy | 0b11;
                 }
-                if (status.orderBegin == time) {
+                if (status.getOrderBegin() == time) {
                     buzy = buzy | 0b01;
                 }
-                if (status.orderEnd == time) {
+                if (status.getOrderEnd() == time) {
                     buzy = buzy | 0b10;
                 }
             }
@@ -276,8 +276,8 @@ public class TableStatusData {
         this.currentDate = currentDate;
         this.orderStart = orderStart;
 
-        openTime = getWorkingTimeToday(mStore.orderBegin, context.getResources().getString(R.string.working_time_format), 1000 * 60 * 60 * 8);
-        closeTime = getWorkingTimeToday(mStore.orderEnd, context.getResources().getString(R.string.working_time_format), 1000 * 60 * 60 * 23);
+        openTime = getWorkingTimeToday(store.getOrderBegin(), store.getTimeFormat(), 1000 * 60 * 60 * 8);
+        closeTime = getWorkingTimeToday(store.getOrderEnd(), store.getTimeFormat(), 1000 * 60 * 60 * 23);
 
         this.orderStart = openTime + this.interval * (Math.round((this.orderStart - openTime) / this.interval));
 
@@ -295,11 +295,11 @@ public class TableStatusData {
 
     }
 
-    public TableEntity getSelectedTable() {
+    public ITable getSelectedTable() {
         return selectedTable;
     }
 
-    public void setSelectedTable(TableEntity selectedTable) {
+    public void setSelectedTable(ITable selectedTable) {
         this.selectedTable = selectedTable;
     }
 

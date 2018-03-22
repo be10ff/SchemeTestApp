@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SchemeTestApp</string>
+    <string name="working_time_format" translatable="false">hh:mm</string>
 </resources>

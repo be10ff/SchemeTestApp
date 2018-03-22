@@ -29,10 +29,8 @@ import java.util.List;
 import ru.abelov.schemeTimeComponent.OnTableSelectListener;
 import ru.abelov.schemeTimeComponent.R;
 import ru.abelov.schemeTimeComponent.TableStatusData;
-import ru.abelov.schemeTimeComponent.entity.SectionEntity;
-import ru.abelov.schemeTimeComponent.entity.TableEntity;
-import ru.abelov.schemeTimeComponent.timepicker.HorizontalPicker;
-import ru.abelov.schemeTimeComponent.timepicker.HorizontalPickerAdapter;
+import ru.abelov.schemeTimeComponent.entity.ISection;
+import ru.abelov.schemeTimeComponent.entity.ITable;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -57,7 +55,7 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
 //    @BindView(R.id.rlContainer)
     public RelativeLayout container;
 
-    List<TableEntity> tableList;
+    List<ITable> tableList;
     private List<ControlTable> controls;
     private int width;
     private int height;
@@ -106,7 +104,7 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
     private void init(Builder builder) {
         this.listener = builder.listener;
         this.data = builder.tableStatusData;
-        this.tableList = builder.section.tables;
+        this.tableList = builder.section.getTables();
     }
 
 //    public void setListener(OnTableSelectListener listener) {
@@ -169,8 +167,8 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
         controls.add(control);
     }
 
-    public void setSection(final SectionEntity section) {
-        this.tableList = section.tables;
+    public void setSection(final ISection section) {
+        this.tableList = section.getTables();
         subscription = Observable.combineLatest(
                 Observable.create(new Observable.OnSubscribe<Pair<Integer, Integer>>() {
                     @Override
@@ -201,7 +199,7 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
 //                        if (!url.startsWith("http://") || !url.startsWith("https://")) {
 //                            url = String.format("%s/%s", settings.CONNECTION_MODE.get(), url);
 //                        }
-                        String url = section.schemaImg;
+                        String url = section.getSectionURL();
                         url = "https://www.metrtv.ru/images/ads/photo_125554_6.jpg";
                         Picasso.with(context).load(url).into(target);
                     }
@@ -256,8 +254,7 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
         });
 
         if (tableList != null) {
-            for (TableEntity table : tableList) {
-                ControlTable.Builder = new ControlTable.Builder(new ControlTable(container, this, table, data));
+            for (ITable table : tableList) {
                 add(new ControlTable(container, this, table, data));
             }
         }
@@ -272,7 +269,7 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
     }
 
     @Override
-    public void onTableSelect(TableEntity table) {
+    public void onTableSelect(ITable table) {
         if (listener != null) {
             listener.onTableSelect(table);
         }
@@ -412,7 +409,7 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
     public static class Builder {
         private ControlTableList cPlace;
         private OnTableSelectListener listener;
-        private SectionEntity section;
+        private ISection section;
         private TableStatusData tableStatusData;
 
         public Builder(ControlTableList cPlace) {
@@ -424,7 +421,7 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
             return this;
         }
 
-        public Builder setTimeLine(SectionEntity section) {
+        public Builder setTimeLine(ISection section) {
             this.section = section;
             return this;
         }

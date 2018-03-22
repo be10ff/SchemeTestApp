@@ -1,4 +1,4 @@
-package ru.abelov.schemeTimeComponent.entity;
+package ru.abelov.schemetestapp;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -51,6 +51,8 @@ public class TableEntity implements Parcelable {
     public String adminId;
     @SerializedName("imageTable")
     public String img;
+    @SerializedName("imagePath")
+    public String imagePath;
     @SerializedName("capacity")
     public int capacity;
     @SerializedName("mapX")

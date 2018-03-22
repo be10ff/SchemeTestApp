@@ -8,7 +8,7 @@
  * Author   : Copyright (c) 2016 by JC Square Inc. All Rights Reserved.
  */
 
-package ru.abelov.schemeTimeComponent.entity;
+package ru.abelov.schemetestapp;
 
 import java.io.Serializable;
 import java.util.Date;
