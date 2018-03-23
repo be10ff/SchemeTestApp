@@ -184,6 +184,8 @@ public void onTimeChanged() {
             width = bitmap.getWidth();
             height = bitmap.getHeight();
             ivTable.setImageBitmap(bitmap);
+
+            onUIChanged(zoom);
         }
 
         @Override
@@ -200,7 +202,7 @@ public void onTimeChanged() {
 
     Picasso.with(getContext()).load(url).into(target);
 
-    onUIChanged(zoom);
+
 }
 
 }
