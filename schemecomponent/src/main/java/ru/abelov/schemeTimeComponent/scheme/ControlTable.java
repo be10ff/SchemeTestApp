@@ -29,7 +29,7 @@ public class ControlTable extends FrameLayout {
 
     public ControlTable(final ViewGroup container, final OnTableSelectListener listener, final ITable tableInfo, TableStatusData data) {
         super(container.getContext());
-        View v = ((LayoutInflater) container.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.control_table, this);
+        View v = ((LayoutInflater) container.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.table_view, this);
         ivTable =/* (android.support.v7.widget.AppCompatImageView)*/v.findViewById(R.id.ivTable);
         flControl =/* (android.support.v7.widget.AppCompatImageView)*/v.findViewById(R.id.flControl);
         this.mData = data;

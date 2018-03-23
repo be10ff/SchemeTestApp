@@ -55,7 +55,7 @@ public class HorizontalPickerAdapter extends RecyclerView.Adapter<RecyclerView.V
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new TimeTableHolder(
                 LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_hour_picker, parent, false), new OnItemClickedListener() {
+                        .inflate(R.layout.item_picker_layout, parent, false), new OnItemClickedListener() {
             @Override
             public void onClickView(TimeTableHolder holder) {
                 listener.onClickView(holder);
@@ -174,8 +174,8 @@ public class HorizontalPickerAdapter extends RecyclerView.Adapter<RecyclerView.V
             selectionColor = R.color.datapickerGreen;
             buzyColor = R.color.datapickerRed;
 
-            backgroundDay = R.drawable.background_day_transparent;
-            backgroundPastDay = R.drawable.background_day_past_transparent;
+            backgroundDay = R.drawable.bg_transparent;
+            backgroundPastDay = R.drawable.bg_past_transparent;
         }
 
         public Builder setTransparentColor(int colorResId){

@@ -2,7 +2,6 @@ package ru.abelov.schemeTimeComponent.scheme;
 
 import android.accounts.NetworkErrorException;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
@@ -75,7 +74,7 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
 
     public ControlTableList(final Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        View v = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.control_table_list, this);
+        View v = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.table_list_view, this);
 
         ivScheme = v.findViewById(R.id.ivScheme);
         hScroll = v.findViewById(R.id.hScroll);
@@ -89,15 +88,15 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
         tableList = new ArrayList<>();
         controls = new ArrayList<>();
 
-        init(context, attrs);
+//        init(context, attrs);
     }
 
-    private void init(Context context, AttributeSet attrs)
-    {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ControlTable);
-
-        a.recycle();
-    }
+//    private void init(Context context, AttributeSet attrs)
+//    {
+//        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ControlTable);
+//
+//        a.recycle();
+//    }
 
     private void init(Builder builder) {
         this.listener = builder.listener;

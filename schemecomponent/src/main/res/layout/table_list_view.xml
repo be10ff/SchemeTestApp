@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ru.abelov.schemeTimeComponent.ui.VScroll
+    <ru.abelov.schemeTimeComponent.ui.VUnScroll
         android:id="@+id/vScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
 
-        <ru.abelov.schemeTimeComponent.ui.HScroll
+        <ru.abelov.schemeTimeComponent.ui.HUnScroll
             android:id="@+id/hScroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -27,6 +27,6 @@
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY" />
             </RelativeLayout>
-        </ru.abelov.schemeTimeComponent.ui.HScroll>
-    </ru.abelov.schemeTimeComponent.ui.VScroll>
+        </ru.abelov.schemeTimeComponent.ui.HUnScroll>
+    </ru.abelov.schemeTimeComponent.ui.VUnScroll>
 </RelativeLayout>

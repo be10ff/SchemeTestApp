@@ -20,8 +20,8 @@
         app:selection_color="@color/datapickerGreen"
         app:buzy_color="@color/datapickerRed"
 
-        app:background_day_drawable="@drawable/background_day_transparent"
-        app:background_past_day_drawable="@drawable/background_day_past_transparent"
+        app:background_day_drawable="@drawable/bg_transparent"
+        app:background_past_day_drawable="@drawable/bg_past_transparent"
 
 
         app:plus_button="@drawable/ic_w_minus_booking"

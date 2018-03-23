@@ -4,19 +4,19 @@ package ru.abelov.schemeTimeComponent.ui;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.HorizontalScrollView;
+import android.widget.ScrollView;
 
-public class HScroll extends HorizontalScrollView {
+public class VUnScroll extends ScrollView {
 
-    public HScroll(Context context, AttributeSet attrs, int defStyle) {
+    public VUnScroll(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
-    public HScroll(Context context, AttributeSet attrs) {
+    public VUnScroll(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public HScroll(Context context) {
+    public VUnScroll(Context context) {
         super(context);
     }
 

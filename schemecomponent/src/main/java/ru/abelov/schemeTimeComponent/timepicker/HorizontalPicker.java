@@ -102,8 +102,8 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
         selectionColor = a.getResourceId(R.styleable.HorizontalPicker_selection_color, R.color.datapickerGreen);
         buzyColor = a.getResourceId(R.styleable.HorizontalPicker_buzy_color, R.color.datapickerRed);
 
-        backgroundDay = a.getResourceId(R.styleable.HorizontalPicker_background_day_drawable, R.drawable.background_day_transparent);
-        backgroundPastDay = a.getResourceId(R.styleable.HorizontalPicker_background_past_day_drawable, R.drawable.background_day_past_transparent);
+        backgroundDay = a.getResourceId(R.styleable.HorizontalPicker_background_day_drawable, R.drawable.bg_transparent);
+        backgroundPastDay = a.getResourceId(R.styleable.HorizontalPicker_background_past_day_drawable, R.drawable.bg_past_transparent);
 
         leftArrow = a.getResourceId(R.styleable.HorizontalPicker_left_arrow, 0);
         rightArrow = a.getResourceId(R.styleable.HorizontalPicker_right_arrow, 0);
@@ -114,7 +114,7 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
     }
 
     private void internInit() {
-        View v = inflate(getContext(), R.layout.horizontal_picker, this);
+        View v = inflate(getContext(), R.layout.picker_layout, this);
         rvDays = v.findViewById(R.id.rvDays);
         vHover = v.findViewById(R.id.vHover);
 
