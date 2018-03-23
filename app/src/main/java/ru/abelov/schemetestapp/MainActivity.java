@@ -337,6 +337,11 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         @Override
+                        public String getName() {
+                            return t.name;
+                        }
+
+                        @Override
                         public List<IStatus> getStatuses() {
                             List<IStatus> list = new ArrayList<>();
                             if(t.tableStatuses != null) {

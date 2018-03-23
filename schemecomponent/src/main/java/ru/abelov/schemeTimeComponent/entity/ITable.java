@@ -12,5 +12,6 @@ public interface ITable {
     int getY();
     int getCapacity();
     String getImageUrl();
+    String getName();
     List<IStatus> getStatuses();
 }
