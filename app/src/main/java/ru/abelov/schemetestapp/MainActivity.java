@@ -364,7 +364,7 @@ public class MainActivity extends AppCompatActivity {
                                     });
                                 }
                             }
-                            return null;
+                            return list;
                         }
 
                     });

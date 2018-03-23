@@ -23,11 +23,13 @@
         app:background_day_drawable="@drawable/background_day_transparent"
         app:background_past_day_drawable="@drawable/background_day_past_transparent"
 
-        app:left_arrow="@drawable/ic_w_left_arrow"
-        app:right_arrow="@drawable/ic_w_right_arrow"
+
         app:plus_button="@drawable/ic_w_minus_booking"
         app:minus_button="@drawable/ic_w_plus_booking"
         />
+
+    <!--app:left_arrow="@drawable/ic_w_left_arrow"-->
+    <!--app:right_arrow="@drawable/ic_w_right_arrow"-->
 
     <ru.abelov.schemeTimeComponent.scheme.ControlTableList
         xmlns:android="http://schemas.android.com/apk/res/android"

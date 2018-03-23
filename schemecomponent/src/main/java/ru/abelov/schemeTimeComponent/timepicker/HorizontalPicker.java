@@ -141,7 +141,7 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
 
 
         ivPlus = v.findViewById(R.id.ivIncreaseDuration);
-        if(rightArrow != 0) {
+        if(plusButton != 0) {
             ivPlus.setVisibility(VISIBLE);
             ivPlus.setImageResource(plusButton);
             ivPlus.setOnClickListener(new OnClickListener() {
@@ -159,7 +159,7 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
 
 
         ivRight = v.findViewById(R.id.ivScrollRight);
-        if(plusButton != 0) {
+        if(rightArrow != 0) {
             ivRight.setVisibility(VISIBLE);
             ivRight.setImageResource(rightArrow);
             ivRight.setOnClickListener(new OnClickListener() {

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ru.abelov.schemeTimeComponent.ui.VScroll xmlns:android="http://schemas.android.com/apk/res/android"
+    <ru.abelov.schemeTimeComponent.ui.VScroll
         android:id="@+id/vScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
