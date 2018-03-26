@@ -345,6 +345,16 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
         return true;
     }
 
+
+    public float getScaleFactor(){
+        return scaleFactor;
+    }
+
+    public void setScaleFactor(float scaleFactor){
+        this.scaleFactor = scaleFactor;
+    }
+
+
     private class ScaleListener
             extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
