@@ -87,16 +87,13 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
         mTouchSlop = vc.getScaledTouchSlop();
         tableList = new ArrayList<>();
         controls = new ArrayList<>();
-
-//        init(context, attrs);
     }
 
-//    private void init(Context context, AttributeSet attrs)
-//    {
-//        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ControlTable);
-//
-//        a.recycle();
-//    }
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        subscription.unsubscribe();
+    }
 
     private void init(Builder builder) {
         this.listener = builder.listener;
@@ -104,14 +101,6 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
         this.tableList = builder.section.getTables();
         setSection(builder.section);
     }
-
-//    public void setListener(OnTableSelectListener listener) {
-//        this.listener = listener;
-//    }
-//
-//    public void setData(TableStatusData data) {
-//        this.data = data;
-//    }
 
 
     public void onTimeChanged() {
@@ -191,17 +180,11 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
                             }
                         };
                         ivScheme.setTag(target);
-//                        String url = "http://95.131.29.211//image-resource/schema/it_st_1519112334244_it_st_1510919471742_Схема_Fanny_white.jpg";
 
-//                        String url = section.schemaImg.replace(" ", "%20");  // 경로에 whitespace가 들어있을 때 url에서 사용될 수 있도록 변경
-//                        Settings settings = Settings.getInstance(context);
-//                        if (!url.startsWith("http://") || !url.startsWith("https://")) {
-//                            url = String.format("%s/%s", settings.CONNECTION_MODE.get(), url);
-//                        }
                         String url = section.getSectionURL();
 
-                        url = "https://www.metrtv.ru/images/ads/photo_125554_6.jpg";
                         Picasso.with(context).load(url).into(target);
+
                     }
                 }).filter(new Func1<Pair<Integer, Integer>, Boolean>() {
                     @Override

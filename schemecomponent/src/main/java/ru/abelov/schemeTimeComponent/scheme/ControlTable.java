@@ -68,43 +68,45 @@ public class ControlTable extends FrameLayout {
         setLayoutParams(params);
     }
 
-public void onTimeChanged() {
+    public void onTimeChanged() {
 
-    String url = tableInfo.getImageUrl();
+        String url = tableInfo.getImageUrl();
 
-    if(mData.isMyBookingOrder(tableInfo)){
-        url += "&status=booked";
-    } else if(mData.isBuzy(tableInfo)){
-        url += "&status=busy";
-    } else {
-        url += "&status=free";
+        if(mData.isMyBookingOrder(tableInfo)){
+            url += "&status=booked";
+        } else if(mData.isBuzy(tableInfo)){
+            url += "&status=busy";
+        } else {
+            url += "&status=free";
+        }
+
+        Target target = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                width = bitmap.getWidth();
+                height = bitmap.getHeight();
+                ivTable.setImageBitmap(bitmap);
+
+                onUIChanged(zoom);
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        };
+        ivTable.setTag(target);
+
+        try {
+            Picasso.with(getContext()).load(url).into(target);
+        } catch (Exception e) {
+
+        }
     }
-
-    Target target = new Target() {
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            width = bitmap.getWidth();
-            height = bitmap.getHeight();
-            ivTable.setImageBitmap(bitmap);
-
-            onUIChanged(zoom);
-        }
-
-        @Override
-        public void onBitmapFailed(Drawable errorDrawable) {
-
-        }
-
-        @Override
-        public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-        }
-    };
-    ivTable.setTag(target);
-
-    Picasso.with(getContext()).load(url).into(target);
-
-
-}
 
 }
