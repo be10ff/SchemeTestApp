@@ -11,6 +11,7 @@ public interface ITable {
     int getX();
     int getY();
     int getCapacity();
+    double getDeposit();
     String getImageUrl();
     String getName();
     List<IStatus> getStatuses();
