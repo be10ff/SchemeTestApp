@@ -76,6 +76,8 @@ public class ControlTable extends FrameLayout {
             url += "&status=booked";
         } else if(mData.isBuzy(tableInfo)){
             url += "&status=busy";
+        } else if(tableInfo.getDeposit() > 0) {
+            url += "&status=deposit";
         } else {
             url += "&status=free";
         }
