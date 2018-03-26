@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,6 +40,129 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
+
+        final Store store =  new Gson().fromJson("{\n" +
+                "   \"id\":8,\n" +
+                "   \"brandId\":4,\n" +
+                "   \"storeNm\":\"Bak coffee\",\n" +
+                "   \"tel\":\"+7-495-111-11-11\",\n" +
+                "   \"city\":\"Москва\",\n" +
+                "   \"addr1\":\"ул. Верейская д.29, стр. 134\",\n" +
+                "   \"addr2\":\"\",\n" +
+                "   \"zip\":\"\",\n" +
+                "   \"latitude\":55.7095,\n" +
+                "   \"longitude\":37.4423,\n" +
+                "   \"timezone\":\"Europe/Moscow\",\n" +
+                "   \"tip\":\"{\\\"beacon\\\": true, \\\"parking\\\": true, \\\"babyChair\\\": true, \\\"smallRoom\\\": true, \\\"party\\\": true, \\\"outdoor\\\": true}\",\n" +
+                "   \"intro\":\"Когда на душе тоскливо, но в бар совсем не хочется, для вас открываются двери уютных кофеен. Полумрак  и ненавязчивый, отзывчивый персонал укроет вас от любых вьюг\",\n" +
+                "   \"distance\":184.22253023131594,\n" +
+                "   \"useReview\":true,\n" +
+                "   \"useSelforder\":true,\n" +
+                "   \"useReserve\":true,\n" +
+                "   \"useParty\":true,\n" +
+                "   \"rsvDeposit\":100.0,\n" +
+                "   \"prtDeposit\":2000.0,\n" +
+                "   \"orderBegin\":\"0700\",\n" +
+                "   \"orderEnd\":\"0300\",\n" +
+                "   \"budget\":\"0\",\n" +
+                "   \"imgsUrl\":[\n" +
+                "\n" +
+                "   ],\n" +
+                "   \"coupons\":[\n" +
+                "\n" +
+                "   ],\n" +
+                "   \"externalId\":null,\n" +
+                "   \"externalType\":null,\n" +
+                "   \"externalMinPrice\":null,\n" +
+                "   \"imageUrl\":\"/image-resource/store/discount/8/it_st_1514473592711_586fb3503d79b1597454717c.png\",\n" +
+                "   \"nearestMetroStation\":\"\",\n" +
+                "   \"rating\":4.07,\n" +
+                "   \"ratingCount\":15,\n" +
+                "   \"currency\":\"RUB\",\n" +
+                "   \"taxRate\":10.0,\n" +
+                "   \"bookmark\":0,\n" +
+                "   \"logoImg\":\"/image-resource/store/brand/4/1514190179001_j235Ikor.jpg\",\n" +
+                "   \"weekSchedule\":{\n" +
+                "      \"days\":[\n" +
+                "         {\n" +
+                "            \"dayOfWeek\":\"1\",\n" +
+                "            \"work\":true,\n" +
+                "            \"orderBegin\":\"0900\",\n" +
+                "            \"orderEnd\":\"2300\",\n" +
+                "            \"breaks\":[\n" +
+                "               {\n" +
+                "                  \"breakBegin\":\"2100\",\n" +
+                "                  \"breakEnd\":\"2200\"\n" +
+                "               }\n" +
+                "            ]\n" +
+                "         },\n" +
+                "         {\n" +
+                "            \"dayOfWeek\":\"5\",\n" +
+                "            \"work\":true,\n" +
+                "            \"orderBegin\":\"1200\",\n" +
+                "            \"orderEnd\":\"0000\",\n" +
+                "            \"breaks\":[\n" +
+                "\n" +
+                "            ]\n" +
+                "         },\n" +
+                "         {\n" +
+                "            \"dayOfWeek\":\"6\",\n" +
+                "            \"work\":true,\n" +
+                "            \"orderBegin\":\"0000\",\n" +
+                "            \"orderEnd\":\"0700\",\n" +
+                "            \"breaks\":[\n" +
+                "\n" +
+                "            ]\n" +
+                "         },\n" +
+                "         {\n" +
+                "            \"dayOfWeek\":\"1\",\n" +
+                "            \"work\":true,\n" +
+                "            \"orderBegin\":\"0900\",\n" +
+                "            \"orderEnd\":\"2300\",\n" +
+                "            \"breaks\":[\n" +
+                "               {\n" +
+                "                  \"breakBegin\":\"1100\",\n" +
+                "                  \"breakEnd\":\"1300\"\n" +
+                "               }\n" +
+                "            ]\n" +
+                "         },\n" +
+                "         {\n" +
+                "            \"dayOfWeek\":\"2\",\n" +
+                "            \"work\":true,\n" +
+                "            \"orderBegin\":\"1000\",\n" +
+                "            \"orderEnd\":\"2200\",\n" +
+                "            \"breaks\":[\n" +
+                "               {\n" +
+                "                  \"breakBegin\":\"1200\",\n" +
+                "                  \"breakEnd\":\"1230\"\n" +
+                "               }\n" +
+                "            ]\n" +
+                "         },\n" +
+                "         {\n" +
+                "            \"dayOfWeek\":\"2\",\n" +
+                "            \"work\":true,\n" +
+                "            \"orderBegin\":\"1000\",\n" +
+                "            \"orderEnd\":\"2200\",\n" +
+                "            \"breaks\":[\n" +
+                "               {\n" +
+                "                  \"breakBegin\":\"1200\",\n" +
+                "                  \"breakEnd\":\"1230\"\n" +
+                "               }\n" +
+                "            ]\n" +
+                "         },\n" +
+                "         {\n" +
+                "            \"dayOfWeek\":\"3\",\n" +
+                "            \"work\":false,\n" +
+                "            \"orderBegin\":\"--\",\n" +
+                "            \"orderEnd\":\"--\",\n" +
+                "            \"breaks\":[\n" +
+                "\n" +
+                "            ]\n" +
+                "         }\n" +
+                "      ]\n" +
+                "   }\n" +
+                "}"
+                , Store.class);
 
         final SectionEntity section = new Gson().fromJson(
                 "{\n" +
@@ -157,148 +281,24 @@ public class MainActivity extends AppCompatActivity {
                         "      }\n" +
                         "   ]\n" +
                         "}"
-//            "{\n" +
-//                "   \"id\":77,\n" +
-//                "   \"brandId\":4,\n" +
-//                "   \"storeId\":8,\n" +
-//                "   \"name\":\"Малый зал\",\n" +
-//                "   \"schemaImg\":\"/image-resource/schema/it_st_1508833700856_Схема_Fanny_Kabany_студия_1.jpg\",\n" +
-//                "   \"adminId\":\"\",\n" +
-//                "   \"ordinal\":0,\n" +
-//                "   \"tables\":[\n" +
-//                "      {\n" +
-//                "         \"id\":1028,\n" +
-//                "         \"brandId\":4,\n" +
-//                "         \"storeId\":8,\n" +
-//                "         \"sectionId\":77,\n" +
-//                "         \"ordinal\":0,\n" +
-//                "         \"name\":\"Столик у окна\",\n" +
-//                "         \"enabled\":true,\n" +
-//                "         \"orderEnabled\":true,\n" +
-//                "         \"posNo\":\"\",\n" +
-//                "         \"orderId\":null,\n" +
-//                "         \"masterTableNo\":null,\n" +
-//                "         \"adminId\":\"\",\n" +
-//                "         \"capacity\":6,\n" +
-//                "         \"mapX\":261,\n" +
-//                "         \"mapY\":37,\n" +
-//                "         \"imagePath\":\"http://img.bakapp.ru/image/table/instance/file?instance=11\",\n" +
-//                "         \"tableStatuses\":[\n" +
-//                "            {\n" +
-//                "               \"id\":439,\n" +
-//                "               \"tableId\":1028,\n" +
-//                "               \"userId\":428,\n" +
-//                "               \"orderBegin\":1522243215000,\n" +
-//                "               \"orderEnd\":1522243515000\n" +
-//                "            }\n" +
-//                "         ],\n" +
-//                "         \"deposit\":1.0,\n" +
-//                "         \"used\":false\n" +
-//                "      },\n" +
-//                "      {\n" +
-//                "         \"id\":1029,\n" +
-//                "         \"brandId\":4,\n" +
-//                "         \"storeId\":8,\n" +
-//                "         \"sectionId\":77,\n" +
-//                "         \"ordinal\":0,\n" +
-//                "         \"name\":\"Столик у сцены\",\n" +
-//                "         \"enabled\":true,\n" +
-//                "         \"orderEnabled\":true,\n" +
-//                "         \"posNo\":\"\",\n" +
-//                "         \"orderId\":null,\n" +
-//                "         \"masterTableNo\":null,\n" +
-//                "         \"adminId\":\"\",\n" +
-//                "         \"capacity\":6,\n" +
-//                "         \"mapX\":727,\n" +
-//                "         \"mapY\":217,\n" +
-//                "         \"imagePath\":\"http://img.bakapp.ru/image/table/instance/file?instance=11\",\n" +
-//                "         \"tableStatuses\":null,\n" +
-//                "         \"deposit\":4300.0,\n" +
-//                "         \"used\":false\n" +
-//                "      },\n" +
-//                "      {\n" +
-//                "         \"id\":1296,\n" +
-//                "         \"brandId\":4,\n" +
-//                "         \"storeId\":8,\n" +
-//                "         \"sectionId\":77,\n" +
-//                "         \"ordinal\":0,\n" +
-//                "         \"name\":\"Златый\",\n" +
-//                "         \"enabled\":true,\n" +
-//                "         \"orderEnabled\":true,\n" +
-//                "         \"posNo\":\"\",\n" +
-//                "         \"orderId\":null,\n" +
-//                "         \"masterTableNo\":null,\n" +
-//                "         \"adminId\":\"\",\n" +
-//                "         \"capacity\":4,\n" +
-//                "         \"mapX\":627,\n" +
-//                "         \"mapY\":57,\n" +
-//                "         \"imagePath\":\"http://img.bakapp.ru/image/table/instance/file?instance=11\",\n" +
-//                "         \"tableStatuses\":null,\n" +
-//                "         \"deposit\":1.0,\n" +
-//                "         \"used\":false\n" +
-//                "      },\n" +
-//                "      {\n" +
-//                "         \"id\":1363,\n" +
-//                "         \"brandId\":4,\n" +
-//                "         \"storeId\":8,\n" +
-//                "         \"sectionId\":77,\n" +
-//                "         \"ordinal\":0,\n" +
-//                "         \"name\":\"\",\n" +
-//                "         \"enabled\":true,\n" +
-//                "         \"orderEnabled\":true,\n" +
-//                "         \"posNo\":\"\",\n" +
-//                "         \"orderId\":null,\n" +
-//                "         \"masterTableNo\":null,\n" +
-//                "         \"adminId\":\"\",\n" +
-//                "         \"capacity\":4,\n" +
-//                "         \"mapX\":447,\n" +
-//                "         \"mapY\":91,\n" +
-//                "         \"imagePath\":\"http://img.bakapp.ru/image/table/instance/file?instance=11\",\n" +
-//                "         \"tableStatuses\":null,\n" +
-//                "         \"deposit\":0.0,\n" +
-//                "         \"used\":false\n" +
-//                "      },\n" +
-//                "      {\n" +
-//                "         \"id\":1364,\n" +
-//                "         \"brandId\":4,\n" +
-//                "         \"storeId\":8,\n" +
-//                "         \"sectionId\":77,\n" +
-//                "         \"ordinal\":0,\n" +
-//                "         \"name\":\"\",\n" +
-//                "         \"enabled\":true,\n" +
-//                "         \"orderEnabled\":true,\n" +
-//                "         \"posNo\":\"\",\n" +
-//                "         \"orderId\":null,\n" +
-//                "         \"masterTableNo\":null,\n" +
-//                "         \"adminId\":\"\",\n" +
-//                "         \"capacity\":4,\n" +
-//                "         \"mapX\":567,\n" +
-//                "         \"mapY\":171,\n" +
-//                "         \"imagePath\":\"http://img.bakapp.ru/image/table/instance/file?instance=11\",\n" +
-//                "         \"tableStatuses\":null,\n" +
-//                "         \"deposit\":0.0,\n" +
-//                "         \"used\":false\n" +
-//                "      }\n" +
-//                "   ]\n" +
-//                "}"
                 , SectionEntity.class);
 
-        IStore store = new IStore() {
-            @Override
-            public String getOrderBegin() {
-                return "0700";
-            }
-
-            @Override
-            public String getOrderEnd() {
-                return "2300";
-            }
-
-            @Override
-            public String getTimeFormat() {
-                return "hh     :             mm";
-            }
-        };
+//        IStore store = new IStore() {
+//            @Override
+//            public String getOrderBegin() {
+//                return "0700";
+//            }
+//
+//            @Override
+//            public String getOrderEnd() {
+//                return "2300";
+//            }
+//
+//            @Override
+//            public String getTimeFormat() {
+//                return "hh     :             mm";
+//            }
+//        };
 
         ISection room = new ISection() {
             @Override
@@ -329,6 +329,11 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public int getCapacity() {
                             return t.capacity;
+                        }
+
+                        @Override
+                        public double getDeposit() {
+                            return 0;
                         }
 
                         @Override
@@ -381,10 +386,12 @@ public class MainActivity extends AppCompatActivity {
         };
 
         data = new TableStatusData(this,
-                1521723396878L,
+//                1521723396878L,
+                Calendar.getInstance().getTimeInMillis(),
                 store,
                 user,
-                1521723396878L,
+//                1521723396878L,
+                Calendar.getInstance().getTimeInMillis(),
                 1800000L,
                 3600000L,
                 2,

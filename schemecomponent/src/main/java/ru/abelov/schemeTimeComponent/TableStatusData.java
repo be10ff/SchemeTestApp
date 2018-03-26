@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Locale;
 
 import ru.abelov.schemeTimeComponent.entity.Hour;
+import ru.abelov.schemeTimeComponent.entity.IBreak;
+import ru.abelov.schemeTimeComponent.entity.IDaySchedule;
 import ru.abelov.schemeTimeComponent.entity.ITable;
 import ru.abelov.schemeTimeComponent.entity.IStore;
 import ru.abelov.schemeTimeComponent.entity.IStatus;
@@ -48,8 +50,9 @@ public class TableStatusData {
         this.store = store;
         this.delay = delay;
         this.user = user;
-        openTime = getWorkingTimeToday(store.getOrderBegin(), store.getTimeFormat(), 1000 * 60 * 60 * 8);
-        closeTime = getWorkingTimeToday(store.getOrderEnd(), store.getTimeFormat(), 1000 * 60 * 60 * 23);
+
+        openTime = getWorkingTimeToday(getSchedule().getOrderBegin(), store.getTimeFormat(), 1000 * 60 * 60 * 8);
+        closeTime = getWorkingTimeToday(getSchedule().getOrderEnd(), store.getTimeFormat(), 1000 * 60 * 60 * 23);
         this.orderStart = orderStart;
         this.interval = interval;
         this.politics = politics;
@@ -124,14 +127,26 @@ public class TableStatusData {
             orderStop = closeTime;
         }
 
+//        boolean result = false;
+        if(getSchedule() != null && getSchedule().getBreaks() != null) {
+            for (IBreak b : getSchedule().getBreaks()) {
+
+                long breakBegin = getWorkingTimeToday(b.getBreakBegin(),"hhmm", 0);
+                long breakEnd = getWorkingTimeToday(b.getBreakEnd(), "hhmm", 0);
+                if (time >= breakBegin && time < breakEnd) {
+                    int i = 0;
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
 
 
     public List<Hour> generateTimeLine() {
-        Calendar openDateTime;
-        Calendar closeDateTime;
+
         if(closeTime <= openTime){
             closeTime = closeTime + AlarmManager.INTERVAL_DAY;
         }
@@ -153,22 +168,7 @@ public class TableStatusData {
             close.set(Calendar.MILLISECOND, 0);
         }
 
-//        openDateTime = Calendar.getInstance();
-//        openDateTime.setTimeInMillis(currentDate);
-//        openDateTime.set(Calendar.HOUR_OF_DAY, open.get(Calendar.HOUR_OF_DAY));
-//        openDateTime.set(Calendar.MINUTE, open.get(Calendar.MINUTE));
-//        openDateTime.set(Calendar.SECOND, open.get(Calendar.SECOND));
-//        openDateTime.set(Calendar.MILLISECOND, open.get(Calendar.MILLISECOND));
-//
-//        closeDateTime = Calendar.getInstance();
-//        closeDateTime.setTimeInMillis(currentDate);
-//        closeDateTime.set(Calendar.HOUR_OF_DAY, close.get(Calendar.HOUR_OF_DAY));
-//        closeDateTime.set(Calendar.MINUTE, close.get(Calendar.MINUTE));
-//        closeDateTime.set(Calendar.SECOND, close.get(Calendar.SECOND));
-//        closeDateTime.set(Calendar.MILLISECOND, close.get(Calendar.MILLISECOND));
-
         int h = 0;
-
 
         long d = open.getTimeInMillis() + (interval * h++);
 
@@ -179,7 +179,7 @@ public class TableStatusData {
         return result;
     }
 
-    public boolean isBuzy(ITable table) {
+    public boolean re_isBuzy(ITable table) {
         if (table.getStatuses() != null) {
             for (IStatus status : table.getStatuses()) {
                 if (!(status.getOrderBegin() >= orderStop || status.getOrderEnd() <= orderStart)/*|| status.available == 1*/) {
@@ -188,6 +188,28 @@ public class TableStatusData {
             }
         }
         return false;
+    }
+
+    public boolean isBuzy(ITable table) {
+        boolean result = false;
+        if (table.getStatuses() != null) {
+            for (IStatus status : table.getStatuses()) {
+                if (!(status.getOrderBegin() >= orderStop || status.getOrderEnd() <= orderStart)/*|| status.available == 1*/) {
+                    result = result || true;
+                }
+            }
+        }
+        if(getSchedule() != null && getSchedule().getBreaks() != null) {
+            for (IBreak b : getSchedule().getBreaks()) {
+
+                long breakBegin = getWorkingTimeToday(b.getBreakBegin(),"hhmm", 0);
+                long breakEnd = getWorkingTimeToday(b.getBreakEnd(), "hhmm", 0);
+                if (!(breakBegin >= orderStop || breakEnd <= orderStart)/*|| status.available == 1*/) {
+                    result = result || true;
+                }
+            }
+        }
+        return result;
     }
 
     public boolean isMyBookingOrder(ITable table) {
@@ -201,6 +223,63 @@ public class TableStatusData {
         }
         return false;
     }
+
+    public List<IBreak> getBreaks(){
+        List<IBreak> result = new ArrayList<>();
+        if(getSchedule() != null && getSchedule().getBreaks() != null) {
+            for (IBreak b : getSchedule().getBreaks()) {
+                if()
+                result.add(b);
+            }
+        }
+    }
+
+    public IDaySchedule getSchedule(){
+        Calendar current = (Calendar) Calendar.getInstance().clone();
+        current.setTimeInMillis(openTime);
+
+            if (store.getSchedule() != null
+                    && store.getSchedule().getSchedule() != null
+                    && store.getSchedule().getSchedule().size() == 7) {
+
+                switch (current.get(Calendar.DAY_OF_WEEK)){
+                    case 1: //sunday
+                        return store.getSchedule().getSchedule().get(6);
+                    default:
+                        return store.getSchedule().getSchedule().get(current.get(Calendar.DAY_OF_WEEK) - 2);
+                }
+
+//                return store.getSchedule().getSchedule().get(current.get(Calendar.DAY_OF_WEEK));
+            } else {
+                return new IDaySchedule() {
+                    @Override
+                    public boolean getIsWork() {
+                        return true;
+                    }
+
+                    @Override
+                    public String dayOfWeek() {
+                        return null;
+                    }
+
+                    @Override
+                    public String getOrderBegin() {
+                        return store.getOrderBegin();
+                    }
+
+                    @Override
+                    public String getOrderEnd() {
+                        return store.getOrderEnd();
+                    }
+
+                    @Override
+                    public List<IBreak> getBreaks() {
+                        return null;
+                    }
+                };
+            }
+        }
+
 
     public long getWorkingTimeToday(String openTime, String timeFormat, long defaultTime) {
         SimpleDateFormat format = new SimpleDateFormat(timeFormat, Locale.getDefault());
@@ -220,7 +299,7 @@ public class TableStatusData {
         return current.getTimeInMillis();
     }
 
-    public int getGray(long time) {
+    public int re_getGray(long time) {
         if (time < openTime || time < Calendar.getInstance().getTimeInMillis() + delay) {
             return 0b11;
         }
@@ -236,6 +315,49 @@ public class TableStatusData {
         }
         return 0b00;
 
+    }
+
+    public int getGray(long time) {
+        int res = 0b00;
+
+        if (time < openTime || time < Calendar.getInstance().getTimeInMillis() + delay) {
+            res = res | 0b11;
+        }
+
+        if (time < openTime + interval || time < Calendar.getInstance().getTimeInMillis() + delay + interval) {
+            res = res | 0b10;
+        }
+
+        if (time >= closeTime + interval) {
+            res = res | 0b11;
+        }
+
+        if (time >= closeTime) {
+            res = res |0b01;
+        }
+
+        if(getSchedule() != null && getSchedule().getBreaks() != null){
+            for(IBreak b : getSchedule().getBreaks()){
+
+                long breakBegin = getWorkingTimeToday(b.getBreakBegin(),"hhmm", 0);
+                long breakEnd = getWorkingTimeToday(b.getBreakEnd(), "hhmm", 0);
+
+                if (time == breakBegin) {
+                    res = res |0b01;
+                }
+
+                if (time == breakEnd) {
+                    res = res |0b10;
+                }
+
+                if (time < breakEnd && time > breakBegin) {
+                    res = res |0b11;
+                }
+
+            }
+        }
+
+        return res;
     }
 
     public int getOrange(long time) {
@@ -280,8 +402,8 @@ public class TableStatusData {
         this.currentDate = currentDate;
         this.orderStart = orderStart;
 
-        openTime = getWorkingTimeToday(store.getOrderBegin(), store.getTimeFormat(), 1000 * 60 * 60 * 8);
-        closeTime = getWorkingTimeToday(store.getOrderEnd(), store.getTimeFormat(), 1000 * 60 * 60 * 23);
+        openTime = getWorkingTimeToday(getSchedule().getOrderBegin(), store.getTimeFormat(), 1000 * 60 * 60 * 8);
+        closeTime = getWorkingTimeToday(getSchedule().getOrderEnd(), store.getTimeFormat(), 1000 * 60 * 60 * 23);
 
         this.orderStart = openTime + this.interval * (Math.round((this.orderStart - openTime) / this.interval));
 

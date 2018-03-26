@@ -11,10 +11,15 @@
 package ru.abelov.schemetestapp;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Store implements Serializable {
+import ru.abelov.schemeTimeComponent.entity.IDaySchedule;
+import ru.abelov.schemeTimeComponent.entity.IStore;
+import ru.abelov.schemeTimeComponent.entity.IWeekSchedule;
+
+public class Store implements Serializable, IStore {
 
     public Long id;
     public Long brandId;
@@ -29,13 +34,23 @@ public class Store implements Serializable {
     public Boolean useSelforder;
     public Boolean useReserve;
     public Boolean useParty;
+    /**
+     * @deprecated Используете поле WeekSchedule -> days -> orderBegin
+    */
+//    @Deprecated
     public String orderBegin;
+
+    /**
+     * @deprecated Используете поле WeekSchedule -> days -> orderEnd
+     */
+//    @Deprecated
     public String orderEnd;
     public String budget;
     public List<String> imgsUrl;
     public String imageUrl;
     public String nearestMetroStation;
     public float rating;
+    public Integer ratingCount;
     public int bookmark;
     public String currency;
     public String logoImg;
@@ -55,9 +70,34 @@ public class Store implements Serializable {
     public String city;
     public String addr2;
     public String zip;
-
+    /**
+     * Расписание работы
+    */
+    public WeekSchedule weekSchedule;
 
     public boolean isLoaded = false;
+
+    @Deprecated
+    @Override
+    public String getOrderBegin() {
+        return orderBegin;
+    }
+
+    @Deprecated
+    @Override
+    public String getOrderEnd() {
+        return orderEnd;
+    }
+
+    @Override
+    public IWeekSchedule getSchedule() {
+        return weekSchedule;
+    }
+
+    @Override
+    public String getTimeFormat() {
+        return "hh:mm";
+    }
 //        public String homepage;
     //    public Double externalMinPrice;  //we should not accept orders that cost less than externalMinPrice
 
