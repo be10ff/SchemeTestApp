@@ -154,87 +154,96 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
         controls.add(control);
     }
 
+//    protected void adjustView(final ISection section){
+//        subscription = Observable.combineLatest(
+//                Observable.create(new Observable.OnSubscribe<Pair<Integer, Integer>>() {
+//                    @Override
+//                    public void call(final Subscriber<? super Pair<Integer, Integer>> subscriber) {
+//                        Target target = new Target() {
+//                            @Override
+//                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+//                                width = bitmap.getWidth();
+//                                height = bitmap.getHeight();
+//                                ivScheme.setImageBitmap(bitmap);
+//                                subscriber.onNext(new Pair<Integer, Integer>(width, height));
+//                            }
+//
+//                            @Override
+//                            public void onBitmapFailed(Drawable errorDrawable) {
+//                                subscriber.onError(new NetworkErrorException());
+//                            }
+//
+//                            @Override
+//                            public void onPrepareLoad(Drawable placeHolderDrawable) {
+//
+//                            }
+//                        };
+//                        ivScheme.setTag(target);
+//
+//                        String url = section.getSectionURL();
+//
+//                        Picasso.with(context).load(url).into(target);
+//
+//                    }
+//                }).filter(new Func1<Pair<Integer, Integer>, Boolean>() {
+//                    @Override
+//                    public Boolean call(Pair<Integer, Integer> integerIntegerPair) {
+//                        return integerIntegerPair.first > 0 && integerIntegerPair.second > 0;
+//                    }
+//                }),
+//                Observable.create(new Observable.OnSubscribe<Pair<Integer, Integer>>() {
+//                    @Override
+//                    public void call(final Subscriber<? super Pair<Integer, Integer>> subscriber) {
+//
+//                        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//                            @Override
+//                            public void onGlobalLayout() {
+//                                getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//                                subscriber.onNext(new Pair<Integer, Integer>(getWidth(), getHeight()));
+//                            }
+//                        });
+//
+//                    }
+//                }).filter(new Func1<Pair<Integer, Integer>, Boolean>() {
+//                    @Override
+//                    public Boolean call(Pair<Integer, Integer> integerIntegerPair) {
+//                        return integerIntegerPair.first > 0 && integerIntegerPair.second > 0;
+//                    }
+//                }),
+//                new Func2<Pair<Integer, Integer>, Pair<Integer, Integer>, Float>() {
+//                    @Override
+//                    public Float call(Pair<Integer, Integer> integerIntegerPair, Pair<Integer, Integer> integerIntegerPair2) {
+//                        Float res = Math.min(integerIntegerPair2.first / (float) integerIntegerPair.first, integerIntegerPair2.second / (float) integerIntegerPair.second);
+//                        return res;
+//                    }
+//                }).subscribe(new Subscriber<Float>() {
+//            @Override
+//            public void onCompleted() {
+//                int i = 90;
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                int i = 90;
+//            }
+//
+//            @Override
+//            public void onNext(Float res) {
+//                scaleFactor = res;
+//                minScaleFactor = res;
+//                onUIChanged();
+//            }
+//        });
+//    }
+
+
+    abstract void adjustView(final ISection section);
+
+
     public void setSection(final ISection section) {
         this.tableList = section.getTables();
-        subscription = Observable.combineLatest(
-                Observable.create(new Observable.OnSubscribe<Pair<Integer, Integer>>() {
-                    @Override
-                    public void call(final Subscriber<? super Pair<Integer, Integer>> subscriber) {
-                        Target target = new Target() {
-                            @Override
-                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                width = bitmap.getWidth();
-                                height = bitmap.getHeight();
-                                ivScheme.setImageBitmap(bitmap);
-                                subscriber.onNext(new Pair<Integer, Integer>(width, height));
-                            }
 
-                            @Override
-                            public void onBitmapFailed(Drawable errorDrawable) {
-                                subscriber.onError(new NetworkErrorException());
-                            }
-
-                            @Override
-                            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                            }
-                        };
-                        ivScheme.setTag(target);
-
-                        String url = section.getSectionURL();
-
-                        Picasso.with(context).load(url).into(target);
-
-                    }
-                }).filter(new Func1<Pair<Integer, Integer>, Boolean>() {
-                    @Override
-                    public Boolean call(Pair<Integer, Integer> integerIntegerPair) {
-                        return integerIntegerPair.first > 0 && integerIntegerPair.second > 0;
-                    }
-                }),
-                Observable.create(new Observable.OnSubscribe<Pair<Integer, Integer>>() {
-                    @Override
-                    public void call(final Subscriber<? super Pair<Integer, Integer>> subscriber) {
-
-                        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                            @Override
-                            public void onGlobalLayout() {
-                                getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                                subscriber.onNext(new Pair<Integer, Integer>(getWidth(), getHeight()));
-                            }
-                        });
-
-                    }
-                }).filter(new Func1<Pair<Integer, Integer>, Boolean>() {
-                    @Override
-                    public Boolean call(Pair<Integer, Integer> integerIntegerPair) {
-                        return integerIntegerPair.first > 0 && integerIntegerPair.second > 0;
-                    }
-                }),
-                new Func2<Pair<Integer, Integer>, Pair<Integer, Integer>, Float>() {
-                    @Override
-                    public Float call(Pair<Integer, Integer> integerIntegerPair, Pair<Integer, Integer> integerIntegerPair2) {
-                        Float res = Math.min(integerIntegerPair2.first / (float) integerIntegerPair.first, integerIntegerPair2.second / (float) integerIntegerPair.second);
-                        return res;
-                    }
-                }).subscribe(new Subscriber<Float>() {
-            @Override
-            public void onCompleted() {
-                int i = 90;
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                int i = 90;
-            }
-
-            @Override
-            public void onNext(Float res) {
-                scaleFactor = res;
-                minScaleFactor = res;
-                onUIChanged();
-            }
-        });
+        adjustView(section);
 
         if (tableList != null) {
             for (ITable table : tableList) {

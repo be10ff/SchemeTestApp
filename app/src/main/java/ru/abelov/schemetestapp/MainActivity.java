@@ -67,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void init() {
 
-        final Store store =  new Gson().fromJson("{\n" +
+        final Store store =  new Gson().fromJson(
+                "{\n" +
                 "   \"id\":8,\n" +
                 "   \"brandId\":4,\n" +
                 "   \"storeNm\":\"Bak coffee\",\n" +
