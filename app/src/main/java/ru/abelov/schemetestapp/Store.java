@@ -96,7 +96,7 @@ public class Store implements Serializable, IStore {
 
     @Override
     public String getTimeFormat() {
-        return "hh:mm";
+        return "HHmm";
     }
 //        public String homepage;
     //    public Double externalMinPrice;  //we should not accept orders that cost less than externalMinPrice

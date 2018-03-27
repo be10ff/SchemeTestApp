@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import ru.abelov.schemeTimeComponent.entity.Break;
 import ru.abelov.schemeTimeComponent.entity.Hour;
 import ru.abelov.schemeTimeComponent.entity.IBreak;
 import ru.abelov.schemeTimeComponent.entity.IDaySchedule;
@@ -40,19 +41,17 @@ public class TableStatusData {
     private ITable selectedTable;
     private long currentDate;
     private IStore store;
-    private Context context;
     private long duration;
 
 
-    public TableStatusData(Context context, long currentDate, IStore store, IUser user, long orderStart, long interval, long delay, int politics, String timeFormat) {
-        this.context = context;
+    public TableStatusData(long currentDate, IStore store, IUser user, long orderStart, long interval, long delay, int politics, String timeFormat) {
         this.currentDate = currentDate;
         this.store = store;
         this.delay = delay;
         this.user = user;
 
-        openTime = getWorkingTimeToday(getSchedule().getOrderBegin(), store.getTimeFormat(), 1000 * 60 * 60 * 8);
-        closeTime = getWorkingTimeToday(getSchedule().getOrderEnd(), store.getTimeFormat(), 1000 * 60 * 60 * 23);
+        openTime = getWorkingTimeToday(stringDate2Long(getSchedule().getOrderBegin(), store.getTimeFormat(), 1000 * 60 * 60 * 8));
+        closeTime = getWorkingTimeToday(stringDate2Long(getSchedule().getOrderEnd(), store.getTimeFormat(), 1000 * 60 * 60 * 23));
         this.orderStart = orderStart;
         this.interval = interval;
         this.politics = politics;
@@ -128,13 +127,10 @@ public class TableStatusData {
         }
 
 //        boolean result = false;
-        if(getSchedule() != null && getSchedule().getBreaks() != null) {
-            for (IBreak b : getSchedule().getBreaks()) {
+        if(getBreaks() != null) {
+            for (Break b : getBreaks()) {
 
-                long breakBegin = getWorkingTimeToday(b.getBreakBegin(),"hhmm", 0);
-                long breakEnd = getWorkingTimeToday(b.getBreakEnd(), "hhmm", 0);
-                if (time >= breakBegin && time < breakEnd) {
-                    int i = 0;
+                if (time >= b.breakBegin && time <b.breakEnd) {
                     return false;
                 }
             }
@@ -199,12 +195,9 @@ public class TableStatusData {
                 }
             }
         }
-        if(getSchedule() != null && getSchedule().getBreaks() != null) {
-            for (IBreak b : getSchedule().getBreaks()) {
-
-                long breakBegin = getWorkingTimeToday(b.getBreakBegin(),"hhmm", 0);
-                long breakEnd = getWorkingTimeToday(b.getBreakEnd(), "hhmm", 0);
-                if (!(breakBegin >= orderStop || breakEnd <= orderStart)/*|| status.available == 1*/) {
+        if(getBreaks() != null) {
+            for (Break b : getBreaks()) {
+                if (!(b.breakBegin >= orderStop || b.breakEnd <= orderStart)/*|| status.available == 1*/) {
                     result = result || true;
                 }
             }
@@ -224,19 +217,29 @@ public class TableStatusData {
         return false;
     }
 
-    public List<IBreak> getBreaks(){
-        List<IBreak> result = new ArrayList<>();
+    public List<Break> getBreaks(){
+        List<Break> result = new ArrayList<>();
         if(getSchedule() != null && getSchedule().getBreaks() != null) {
             for (IBreak b : getSchedule().getBreaks()) {
-                if()
-                result.add(b);
+                Break corr = new Break(getWorkingTimeToday(stringDate2Long(b.getBreakBegin(),"hhmm", 0)),
+                        getWorkingTimeToday(stringDate2Long(b.getBreakEnd(),"hhmm", 0)));
+                if(corr.breakBegin < openTime) {
+                    corr.breakBegin += AlarmManager.INTERVAL_DAY;
+                }
+
+                if(corr.breakBegin > corr.breakEnd) {
+                    corr.breakEnd += AlarmManager.INTERVAL_DAY;
+                }
+
+                result.add(corr);
             }
         }
+        return result;
     }
 
     public IDaySchedule getSchedule(){
         Calendar current = (Calendar) Calendar.getInstance().clone();
-        current.setTimeInMillis(openTime);
+        current.setTimeInMillis(currentDate);
 
             if (store.getSchedule() != null
                     && store.getSchedule().getSchedule() != null
@@ -245,11 +248,10 @@ public class TableStatusData {
                 switch (current.get(Calendar.DAY_OF_WEEK)){
                     case 1: //sunday
                         return store.getSchedule().getSchedule().get(6);
-                    default:
+                    default: // 2 - MO, etc ... 7 - SAT
                         return store.getSchedule().getSchedule().get(current.get(Calendar.DAY_OF_WEEK) - 2);
                 }
 
-//                return store.getSchedule().getSchedule().get(current.get(Calendar.DAY_OF_WEEK));
             } else {
                 return new IDaySchedule() {
                     @Override
@@ -281,14 +283,22 @@ public class TableStatusData {
         }
 
 
-    public long getWorkingTimeToday(String openTime, String timeFormat, long defaultTime) {
-        SimpleDateFormat format = new SimpleDateFormat(timeFormat, Locale.getDefault());
-        Calendar dateTime = (Calendar) Calendar.getInstance().clone();
-        try {
-            dateTime.setTime(format.parse(openTime));
-        } catch (ParseException e) {
-            dateTime.setTimeInMillis(defaultTime);
+        public long stringDate2Long(String openTime, String timeFormat, long defaultTime){
+            SimpleDateFormat format = new SimpleDateFormat(timeFormat, Locale.getDefault());
+            Calendar dateTime = (Calendar) Calendar.getInstance().clone();
+            try {
+                dateTime.setTime(format.parse(openTime));
+            } catch (ParseException e) {
+                dateTime.setTimeInMillis(defaultTime);
+            }
+
+            return dateTime.getTimeInMillis();
         }
+
+
+    public long getWorkingTimeToday(long time) {
+        Calendar dateTime = (Calendar) Calendar.getInstance().clone();
+        dateTime.setTimeInMillis(time);
 
         Calendar current = (Calendar) Calendar.getInstance().clone();
         current.setTimeInMillis(currentDate);
@@ -336,21 +346,18 @@ public class TableStatusData {
             res = res |0b01;
         }
 
-        if(getSchedule() != null && getSchedule().getBreaks() != null){
-            for(IBreak b : getSchedule().getBreaks()){
+        if(getBreaks() != null){
+            for(Break b : getBreaks()){
 
-                long breakBegin = getWorkingTimeToday(b.getBreakBegin(),"hhmm", 0);
-                long breakEnd = getWorkingTimeToday(b.getBreakEnd(), "hhmm", 0);
-
-                if (time == breakBegin) {
+                if (time == b.breakBegin) {
                     res = res |0b01;
                 }
 
-                if (time == breakEnd) {
+                if (time == b.breakEnd) {
                     res = res |0b10;
                 }
 
-                if (time < breakEnd && time > breakBegin) {
+                if (time < b.breakEnd && time > b.breakBegin) {
                     res = res |0b11;
                 }
 
@@ -402,8 +409,8 @@ public class TableStatusData {
         this.currentDate = currentDate;
         this.orderStart = orderStart;
 
-        openTime = getWorkingTimeToday(getSchedule().getOrderBegin(), store.getTimeFormat(), 1000 * 60 * 60 * 8);
-        closeTime = getWorkingTimeToday(getSchedule().getOrderEnd(), store.getTimeFormat(), 1000 * 60 * 60 * 23);
+        openTime = getWorkingTimeToday(stringDate2Long(getSchedule().getOrderBegin(), store.getTimeFormat(), 1000 * 60 * 60 * 8));
+        closeTime = getWorkingTimeToday(stringDate2Long(getSchedule().getOrderEnd(), store.getTimeFormat(), 1000 * 60 * 60 * 23));
 
         this.orderStart = openTime + this.interval * (Math.round((this.orderStart - openTime) / this.interval));
 

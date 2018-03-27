@@ -2,6 +2,9 @@ package ru.abelov.schemetestapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.google.gson.Gson;
 
@@ -40,6 +43,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
+
+        init();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.mnRefresh:
+                init();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void init() {
 
         final Store store =  new Gson().fromJson("{\n" +
                 "   \"id\":8,\n" +
@@ -99,10 +125,13 @@ public class MainActivity extends AppCompatActivity {
                 "         {\n" +
                 "            \"dayOfWeek\":\"5\",\n" +
                 "            \"work\":true,\n" +
-                "            \"orderBegin\":\"1200\",\n" +
-                "            \"orderEnd\":\"0000\",\n" +
+                "            \"orderBegin\":\"1700\",\n" +
+                "            \"orderEnd\":\"2400\",\n" +
                 "            \"breaks\":[\n" +
-                "\n" +
+                        "               {\n" +
+                        "                  \"breakBegin\":\"2100\",\n" +
+                        "                  \"breakEnd\":\"2200\"\n" +
+                        "               }\n" +
                 "            ]\n" +
                 "         },\n" +
                 "         {\n" +
@@ -111,7 +140,10 @@ public class MainActivity extends AppCompatActivity {
                 "            \"orderBegin\":\"0000\",\n" +
                 "            \"orderEnd\":\"0700\",\n" +
                 "            \"breaks\":[\n" +
-                "\n" +
+                        "               {\n" +
+                        "                  \"breakBegin\":\"2100\",\n" +
+                        "                  \"breakEnd\":\"2200\"\n" +
+                        "               }\n" +
                 "            ]\n" +
                 "         },\n" +
                 "         {\n" +
@@ -156,7 +188,10 @@ public class MainActivity extends AppCompatActivity {
                 "            \"orderBegin\":\"--\",\n" +
                 "            \"orderEnd\":\"--\",\n" +
                 "            \"breaks\":[\n" +
-                "\n" +
+                        "               {\n" +
+                        "                  \"breakBegin\":\"2100\",\n" +
+                        "                  \"breakEnd\":\"2200\"\n" +
+                        "               }\n" +
                 "            ]\n" +
                 "         }\n" +
                 "      ]\n" +
@@ -303,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
         ISection room = new ISection() {
             @Override
             public String getSectionURL() {
-                return section.schemaImg;
+                return "http://95.131.29.211" + "/" + section.schemaImg;
             }
 
             @Override
@@ -385,13 +420,14 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        data = new TableStatusData(this,
-//                1521723396878L,
-                Calendar.getInstance().getTimeInMillis(),
+        Calendar c = (Calendar) Calendar.getInstance();
+//        c.set(Calendar.HOUR_OF_DAY, 5);
+
+        data = new TableStatusData(
+                c.getTimeInMillis(),
                 store,
                 user,
-//                1521723396878L,
-                Calendar.getInstance().getTimeInMillis(),
+                c.getTimeInMillis(),
                 1800000L,
                 3600000L,
                 2,
@@ -402,7 +438,9 @@ public class MainActivity extends AppCompatActivity {
                 .setListener(new OnTableSelectListener(){
                     @Override
                     public void onTableSelect(ITable table) {
-
+                        long i = table.getId();
+                        data.setSelectedTable(table);
+                        picker.update();
                     }
                 })
                 .setTableStatusData(data)
@@ -413,7 +451,7 @@ public class MainActivity extends AppCompatActivity {
                 .setListener(new DatePickerListener() {
                     @Override
                     public void onTimeChanged() {
-
+                        cPlace.onTimeChanged();
                     }
 
                     @Override

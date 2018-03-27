@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/mnRefresh"
+        android:icon="@drawable/ic_w_minus_booking"
+        android:orderInCategory="100"
+        android:title="@string/refresh_menu"
+        app:showAsAction="always"
+        app:title="@string/refresh_menu" />
+</menu>
