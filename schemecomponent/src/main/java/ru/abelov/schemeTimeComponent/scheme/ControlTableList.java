@@ -179,10 +179,12 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
                             }
                         };
                         ivScheme.setTag(target);
-
-                        String url = section.getSectionURL();
-
-                        Picasso.with(context).load(url).into(target);
+                        try {
+                            String url = section.getSectionURL();
+                            Picasso.with(context).load(url).into(target);
+                        } catch (Exception e) {
+                            subscriber.onError(e);
+                        }
 
                     }
                 }).filter(new Func1<Pair<Integer, Integer>, Boolean>() {
