@@ -115,14 +115,14 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
 
     private void internInit() {
         View v = inflate(getContext(), R.layout.picker_layout, this);
-        rvDays = v.findViewById(R.id.rvDays);
+        rvDays = (RecyclerView) v.findViewById(R.id.rvDays);
         vHover = v.findViewById(R.id.vHover);
 
 //        ImageView ivLeft;
 //        ImageView ivPlus;
 //        ImageView ivRight;
 //        ImageView ivMinus;
-        ivLeft = v.findViewById(R.id.ivScrollLeft);
+        ivLeft = (ImageView) v.findViewById(R.id.ivScrollLeft);
         if(leftArrow != 0) {
             ivLeft.setVisibility(VISIBLE);
             ivLeft.setImageResource(leftArrow);
@@ -140,7 +140,7 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
 
 
 
-        ivPlus = v.findViewById(R.id.ivIncreaseDuration);
+        ivPlus = (ImageView) v.findViewById(R.id.ivIncreaseDuration);
         if(plusButton != 0) {
             ivPlus.setVisibility(VISIBLE);
             ivPlus.setImageResource(plusButton);
@@ -158,7 +158,7 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
         }
 
 
-        ivRight = v.findViewById(R.id.ivScrollRight);
+        ivRight = (ImageView) v.findViewById(R.id.ivScrollRight);
         if(rightArrow != 0) {
             ivRight.setVisibility(VISIBLE);
             ivRight.setImageResource(rightArrow);
@@ -175,7 +175,7 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
         }
 
 
-        ivMinus = v.findViewById(R.id.ivDecreaseDuration);
+        ivMinus = (ImageView)v.findViewById(R.id.ivDecreaseDuration);
         if(minusButton != 0) {
             ivMinus.setVisibility(VISIBLE);
             ivMinus.setImageResource(minusButton);

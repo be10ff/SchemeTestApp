@@ -32,7 +32,7 @@ public class TimeTableHolder extends RecyclerView.ViewHolder {
         this.listener = listener;
         this.itemView = itemView;
 
-        tvTime = itemView.findViewById(R.id.tvTime);
+        tvTime = (TextView) itemView.findViewById(R.id.tvTime);
         vLeft = itemView.findViewById(R.id.vLeft);
         vRight = itemView.findViewById(R.id.vRight);
         vBottomLeft = itemView.findViewById(R.id.vBottomLeft);

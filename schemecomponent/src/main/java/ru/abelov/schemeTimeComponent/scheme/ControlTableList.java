@@ -76,10 +76,10 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
         super(context, attrs);
         View v = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.table_list_view, this);
 
-        ivScheme = v.findViewById(R.id.ivScheme);
-        hScroll = v.findViewById(R.id.hScroll);
-        vScroll = v.findViewById(R.id.vScroll);
-        container = v.findViewById(R.id.rlContainer);
+        ivScheme = (ImageView) v.findViewById(R.id.ivScheme);
+        hScroll = (HorizontalScrollView)v.findViewById(R.id.hScroll);
+        vScroll = (ScrollView)v.findViewById(R.id.vScroll);
+        container = (RelativeLayout)v.findViewById(R.id.rlContainer);
 
         this.context = context;
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
