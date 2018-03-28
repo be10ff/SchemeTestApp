@@ -339,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
         ISection room = new ISection() {
             @Override
             public String getSectionURL() {
-                return "http://95.131.29.211" + "/" + section.schemaImg;
+                return "http://95.131.29.211" + section.schemaImg;
             }
 
             @Override
