@@ -238,10 +238,6 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
         });
     }
 
-
-//    abstract void adjustView(final ISection section);
-
-
     public void setSection(final ISection section) {
         this.tableList = section.getTables();
 

@@ -1,16 +1,22 @@
 package ru.abelov.schemetestapp;
 
+import android.app.DatePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,9 +40,15 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.datePicker)
     HorizontalPicker picker;
 
+    @BindView(R.id.tvDate)
+    TextView tvDate;
+
     TableStatusData data;
 
     private Unbinder unbinder;
+
+    private SimpleDateFormat timeFormat;
+    private long orderStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +56,50 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
 
-        init();
+        String dateFormatShort = " EEEE, dd MMMM yyy ";
+        timeFormat = new SimpleDateFormat(dateFormatShort, Locale.getDefault());
+        Calendar c = (Calendar) Calendar.getInstance();
+        orderStart = c.getTimeInMillis();
+
+        init(orderStart);
+        tvDate.setText(timeFormat.format(orderStart));
+        tvDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar current = (Calendar) Calendar.getInstance().clone();
+                current.setTimeInMillis(orderStart);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        Calendar current = (Calendar) Calendar.getInstance().clone();
+
+                        current.set(Calendar.YEAR, year);
+                        current.set(Calendar.MONTH, month);
+                        current.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                        current.set(Calendar.HOUR, 0);
+                        current.set(Calendar.MINUTE, 0);
+                        current.set(Calendar.SECOND, 0);
+                        current.set(Calendar.MILLISECOND, 0);
+
+                        tvDate.setText(timeFormat.format(current.getTime()));
+
+                        Calendar origin = (Calendar) Calendar.getInstance().clone();
+                        //here possible to set initial time for picked datas... openTime for example
+                        origin.setTimeInMillis(orderStart);
+                        origin.set(Calendar.YEAR, current.get(Calendar.YEAR));
+                        origin.set(Calendar.MONTH, current.get(Calendar.MONTH));
+                        origin.set(Calendar.DAY_OF_MONTH, current.get(Calendar.DAY_OF_MONTH));
+                        orderStart = origin.getTimeInMillis();
+
+                        init(origin.getTimeInMillis());
+
+                    }
+                }, current.get(Calendar.YEAR), current.get(Calendar.MONTH), current.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+
+        });
     }
 
     @Override
@@ -58,14 +113,14 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.mnRefresh:
-                init();
+                init(orderStart);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void init() {
+    public void init(long current) {
 
         final Store store =  new Gson().fromJson(
                 "{\n" +
@@ -319,22 +374,7 @@ public class MainActivity extends AppCompatActivity {
                         "}"
                 , SectionEntity.class);
 
-//        IStore store = new IStore() {
-//            @Override
-//            public String getOrderBegin() {
-//                return "0700";
-//            }
-//
-//            @Override
-//            public String getOrderEnd() {
-//                return "2300";
-//            }
-//
-//            @Override
-//            public String getTimeFormat() {
-//                return "hh     :             mm";
-//            }
-//        };
+
 
         ISection room = new ISection() {
             @Override
@@ -421,14 +461,12 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        Calendar c = (Calendar) Calendar.getInstance();
-//        c.set(Calendar.HOUR_OF_DAY, 5);
 
         data = new TableStatusData(
-                c.getTimeInMillis(),
+                current,
                 store,
                 user,
-                c.getTimeInMillis(),
+                current,
                 1800000L,
                 3600000L,
                 2,
@@ -463,6 +501,12 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onOrder(long orderStart, long orderStop, ITable table) {
 
+                    }
+
+                    @Override
+                    public void onDateChanged(long start) {
+                        tvDate.setText(timeFormat.format(start));
+                        init(start);
                     }
                 })
                 .setTimeLine(data.generateTimeLine())

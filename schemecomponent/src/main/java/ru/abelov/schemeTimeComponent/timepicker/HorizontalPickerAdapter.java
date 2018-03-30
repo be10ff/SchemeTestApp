@@ -17,6 +17,9 @@ import ru.abelov.schemeTimeComponent.entity.Hour;
 
 public class HorizontalPickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    public static final int TYPE_HOUR = 1;
+    public static final int TYPE_DAY = 2;
+
     private OnItemClickedListener listener;
     private Context context;
     private List<Hour> items;
@@ -50,29 +53,58 @@ public class HorizontalPickerAdapter extends RecyclerView.Adapter<RecyclerView.V
         this.backgroundDay = builder.backgroundDay;
         this.backgroundPastDay = builder.backgroundPastDay;
     }
+    @Override
+    public int getItemViewType(int position) {
+        if (items.get(position) == null) {
+            return TYPE_DAY;
+        } else {
+            return TYPE_HOUR;
+        }
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new TimeTableHolder(
-                LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_picker_layout, parent, false), new OnItemClickedListener() {
-            @Override
-            public void onClickView(TimeTableHolder holder) {
-                listener.onClickView(holder);
-            }
-        });
+        if(viewType == TYPE_HOUR) {
+            return new TimeTableHolder(
+                    LayoutInflater.from(parent.getContext())
+                            .inflate(R.layout.item_picker_layout, parent, false), new OnItemClickedListener() {
+                @Override
+                public void onClickView(TimeTableHolder holder) {
+                    listener.onClickView(holder);
+                }
+            });
+        } else {
+            return new TimeTableHolder(
+                    LayoutInflater.from(parent.getContext())
+                            .inflate(R.layout.item_picker_layout, parent, false), new OnItemClickedListener() {
+                @Override
+                public void onClickView(TimeTableHolder holder) {
+                    listener.onClickView(holder);
+                }
+            });
+        }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder h, int position) {
         Hour item = getItem(position);
         TimeTableHolder holder = (TimeTableHolder) h;
-        holder.tvTime.setText(item.getTime());
-
         holder.vLeft.setBackgroundResource(transparentColor);
         holder.vRight.setBackgroundResource(transparentColor);
         holder.vBottomLeft.setBackgroundResource(transparentColor);
         holder.vBottomRight.setBackgroundResource(transparentColor);
+
+        if(item == null){
+            holder.tvTime.setText(null);
+            return;
+        }
+
+        holder.tvTime.setText(item.getTime());
+
+//        holder.vLeft.setBackgroundResource(transparentColor);
+//        holder.vRight.setBackgroundResource(transparentColor);
+//        holder.vBottomLeft.setBackgroundResource(transparentColor);
+//        holder.vBottomRight.setBackgroundResource(transparentColor);
 
         switch (tableStatusData.getGray(item.getMillis())) {
             case 0b11:
@@ -112,9 +144,6 @@ public class HorizontalPickerAdapter extends RecyclerView.Adapter<RecyclerView.V
             case 0b10:
                 holder.vLeft.setBackgroundResource(selectionColor);
                 break;
-//            case 0b00:
-//                holder.vLeft.setBackgroundResource(R.color.datapickerGreen);
-//                break;
             default:
         }
 

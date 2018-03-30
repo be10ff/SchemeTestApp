@@ -7,6 +7,14 @@
     tools:context="ru.abelov.schemetestapp.MainActivity"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        tools:text="12 march 2018"/>
+
     <ru.abelov.schemeTimeComponent.timepicker.HorizontalPicker
         android:id="@+id/datePicker"
         android:layout_width="match_parent"

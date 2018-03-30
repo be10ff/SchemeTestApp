@@ -126,7 +126,6 @@ public class TableStatusData {
             orderStop = closeTime;
         }
 
-//        boolean result = false;
         if(getBreaks() != null) {
             for (Break b : getBreaks()) {
 
@@ -173,17 +172,6 @@ public class TableStatusData {
             d = open.getTimeInMillis() + (interval * h++);
         }
         return result;
-    }
-
-    public boolean re_isBuzy(ITable table) {
-        if (table.getStatuses() != null) {
-            for (IStatus status : table.getStatuses()) {
-                if (!(status.getOrderBegin() >= orderStop || status.getOrderEnd() <= orderStart)/*|| status.available == 1*/) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     public boolean isBuzy(ITable table) {
@@ -427,6 +415,8 @@ public class TableStatusData {
         }
 
     }
+
+
 
     public ITable getSelectedTable() {
         return selectedTable;

@@ -1,5 +1,6 @@
 package ru.abelov.schemeTimeComponent.timepicker;
 
+import android.app.AlarmManager;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
@@ -54,6 +55,12 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
     private TableStatusData tableStatusData;
     private List<Hour> timeLine;
 
+
+    protected int previousTotal = 0;
+    protected int page = 0;
+    protected boolean loading = true;
+    int firstVisibleItem, visibleItemCount, totalItemCount;
+
     private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -73,6 +80,39 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
+            if (dx > 0) {
+
+                visibleItemCount = layoutManager.getChildCount();
+                totalItemCount = layoutManager.getItemCount();
+                firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
+
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                if (!loading && totalItemCount - visibleItemCount <= firstVisibleItem + 2) {
+                    page++;
+                    loading = true;
+                    onLoadMore(page);
+
+                }
+            } else {
+
+                if(loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                if (!loading && firstVisibleItem <= 0) {
+                    page--;
+                    loading = true;
+                    onLoadLess(page);
+
+                }
+            }
         }
     };
 
@@ -118,10 +158,7 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
         rvDays = (RecyclerView) v.findViewById(R.id.rvDays);
         vHover = v.findViewById(R.id.vHover);
 
-//        ImageView ivLeft;
-//        ImageView ivPlus;
-//        ImageView ivRight;
-//        ImageView ivMinus;
+
         ivLeft = (ImageView) v.findViewById(R.id.ivScrollLeft);
         if(leftArrow != 0) {
             ivLeft.setVisibility(VISIBLE);
@@ -293,6 +330,21 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
             vHover.setVisibility(VISIBLE);
     }
 
+    public void onLoadMore(int page){
+        int pp = page;
+
+        listener.onDateChanged(tableStatusData.getCurrentDate() + AlarmManager.INTERVAL_DAY);
+        loading = false;
+
+    }
+
+    public void onLoadLess(int page){
+        int pp = page;
+        listener.onDateChanged(tableStatusData.getCurrentDate() - AlarmManager.INTERVAL_DAY);
+        loading = false;
+
+    }
+
     private static class CenterSmoothScroller extends LinearSmoothScroller {
 
         CenterSmoothScroller(Context context) {
@@ -323,6 +375,8 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
 
         public Builder setTimeLine(List<Hour> timeLine) {
             this.timeLine = timeLine;
+            this.timeLine.add(0, null);
+            this.timeLine.add(null);
             return this;
         }
 
