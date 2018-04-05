@@ -72,16 +72,16 @@ public class ControlTable extends FrameLayout {
 
         String url = tableInfo.getImageUrl();
 
-        if(mData.isMyBookingOrder(tableInfo)){
-            url += "&status=booked";
-        } else if(mData.isBuzy(tableInfo)){
-            url += "&status=busy";
-        } else if(tableInfo.getDeposit() > 0) {
-            url += "&status=deposit";
-        } else {
-            url += "&status=free";
-        }
-
+//        if(mData.isMyBookingOrder(tableInfo)){
+//            url += "&status=booked";
+//        } else if(mData.isBuzy(tableInfo)){
+//            url += "&status=busy";
+//        } else if(tableInfo.getDeposit() > 0) {
+//            url += "&status=deposit";
+//        } else {
+//            url += "&status=free";
+//        }
+        url += "&status=busy";
         Target target = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
