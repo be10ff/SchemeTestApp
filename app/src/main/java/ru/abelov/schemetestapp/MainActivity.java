@@ -1395,8 +1395,8 @@ public class MainActivity extends AppCompatActivity {
         ISection room = new ISection() {
             @Override
             public String getSectionURL() {
-//                return "http://95.131.29.211" + section.schemaImg;
-                return "http://95.131.29.211/image-resource/schema/it_st_1519112334244_it_st_1510919471742_Схема_Fanny_white.jpg";
+                return "http://95.131.29.211" + section.schemaImg;
+//                return "http://95.131.29.211/image-resource/schema/it_st_1519112334244_it_st_1510919471742_Схема_Fanny_white.jpg";
             }
 
             @Override

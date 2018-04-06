@@ -30,11 +30,6 @@ import ru.abelov.schemeTimeComponent.R;
 import ru.abelov.schemeTimeComponent.TableStatusData;
 import ru.abelov.schemeTimeComponent.entity.ISection;
 import ru.abelov.schemeTimeComponent.entity.ITable;
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.functions.Func1;
-import rx.functions.Func2;
 
 /**
  * Created by artem on 03.07.17.
@@ -68,7 +63,6 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
     private TableStatusData data;
 
     private Context context;
-    private Subscription subscription;
 
     private OnTableSelectListener listener;
 
@@ -92,7 +86,6 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        subscription.unsubscribe();
     }
 
     private void init(Builder builder) {
@@ -155,92 +148,45 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
     }
 
     protected void adjustView(final ISection section){
-        subscription = Observable.combineLatest(
-                Observable.create(new Observable.OnSubscribe<Pair<Integer, Integer>>() {
-                    @Override
-                    public void call(final Subscriber<? super Pair<Integer, Integer>> subscriber) {
-                        Target target = new Target() {
-                            @Override
-                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                width = bitmap.getWidth();
-                                height = bitmap.getHeight();
-                                ivScheme.setImageBitmap(bitmap);
-                                subscriber.onNext(new Pair<Integer, Integer>(width, height));
-                            }
-
-                            @Override
-                            public void onBitmapFailed(Drawable errorDrawable) {
-                                subscriber.onError(new NetworkErrorException());
-                            }
-
-                            @Override
-                            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                            }
-                        };
-                        ivScheme.setTag(target);
-                        try {
-                            String url = section.getSectionURL();
-                            Picasso.with(context).load(url).into(target);
-                        } catch (Exception e) {
-                            subscriber.onError(e);
-                        }
-
-                    }
-                }).filter(new Func1<Pair<Integer, Integer>, Boolean>() {
-                    @Override
-                    public Boolean call(Pair<Integer, Integer> integerIntegerPair) {
-                        return integerIntegerPair.first > 0 && integerIntegerPair.second > 0;
-                    }
-                }),
-                Observable.create(new Observable.OnSubscribe<Pair<Integer, Integer>>() {
-                    @Override
-                    public void call(final Subscriber<? super Pair<Integer, Integer>> subscriber) {
-
-                        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                            @Override
-                            public void onGlobalLayout() {
-                                getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                                subscriber.onNext(new Pair<Integer, Integer>(getWidth(), getHeight()));
-                            }
-                        });
-
-                    }
-                }).filter(new Func1<Pair<Integer, Integer>, Boolean>() {
-                    @Override
-                    public Boolean call(Pair<Integer, Integer> integerIntegerPair) {
-                        return integerIntegerPair.first > 0 && integerIntegerPair.second > 0;
-                    }
-                }),
-                new Func2<Pair<Integer, Integer>, Pair<Integer, Integer>, Float>() {
-                    @Override
-                    public Float call(Pair<Integer, Integer> integerIntegerPair, Pair<Integer, Integer> integerIntegerPair2) {
-                        Float res = Math.min(integerIntegerPair2.first / (float) integerIntegerPair.first, integerIntegerPair2.second / (float) integerIntegerPair.second);
-                        return res;
-                    }
-                }).subscribe(new Subscriber<Float>() {
+        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
-            public void onCompleted() {
-                int i = 90;
-            }
+            public void onGlobalLayout() {
+                getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
-            @Override
-            public void onError(Throwable e) {
-                int i = 90;
-            }
+                Target target = new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        width = bitmap.getWidth();
+                        height = bitmap.getHeight();
+                        int viewWidth = getWidth();
+                        int viewHeight = getHeight();
+                        ivScheme.setImageBitmap(bitmap);
+                        Float res = Math.min(viewWidth / (float) width, viewHeight / (float) height);
+                        scaleFactor = res;
+                        minScaleFactor = res;
+                        onUIChanged();
+                    }
 
-            @Override
-            public void onNext(Float res) {
-                scaleFactor = res;
-                minScaleFactor = res;
-                onUIChanged();
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+                        ivScheme.setImageBitmap(null);
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                };
+                ivScheme.setTag(target);
+                try {
+                    String url = section.getSectionURL();
+                    Picasso.with(context).load(url).into(target);
+                } catch (Exception e) {
+                    ivScheme.setImageBitmap(null);
+                }
             }
         });
     }
-
-
-//    abstract void adjustView(final ISection section);
-
 
     public void setSection(final ISection section) {
         this.tableList = section.getTables();

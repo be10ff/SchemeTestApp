@@ -34,9 +34,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
-    //Rx
-    compile 'io.reactivex:rxjava:1.1.6'
-    compile 'io.reactivex:rxandroid:1.2.1'
+//    //Rx
+//    compile 'io.reactivex:rxjava:1.1.6'
+//    compile 'io.reactivex:rxandroid:1.2.1'
 
     // image download
     compile 'com.squareup.picasso:picasso:2.5.2'
