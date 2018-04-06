@@ -324,7 +324,16 @@ public class TableStatusData {
             return 0b01;
         }
         return 0b00;
+    }
 
+    public long getFirstAvaliable(){
+        int h = 0;
+        long d = openTime + (interval * h++);
+
+        while (getGray(d) != 0b10) {
+            d = openTime + (interval * h++);
+        }
+        return d;
     }
 
     public int getGray(long time) {
