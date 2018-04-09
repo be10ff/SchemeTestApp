@@ -311,6 +311,12 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
         this.scaleFactor = scaleFactor;
     }
 
+    public void zoomBy(float rate){
+        scaleFactor *= rate;
+        scaleFactor = Math.max(minScaleFactor, Math.min(scaleFactor, 2.0f));
+        onUIChanged();
+    }
+
 
     private class ScaleListener
             extends ScaleGestureDetector.SimpleOnScaleGestureListener {
