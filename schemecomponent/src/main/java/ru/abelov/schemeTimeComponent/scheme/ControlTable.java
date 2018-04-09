@@ -3,14 +3,19 @@ package ru.abelov.schemeTimeComponent.scheme;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 
 import ru.abelov.schemeTimeComponent.OnTableSelectListener;
 import ru.abelov.schemeTimeComponent.R;
@@ -82,33 +87,20 @@ public class ControlTable extends FrameLayout {
             url += "&status=free";
         }
 
-        Target target = new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                width = bitmap.getWidth();
-                height = bitmap.getHeight();
-                ivTable.setImageBitmap(bitmap);
+        Glide.with(getContext())
+                .load(url)
+                .into(new SimpleTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        width = resource.getIntrinsicWidth();
+                        height = resource.getIntrinsicHeight();
+                        ivTable.setImageDrawable(resource);
 
-                onUIChanged(zoom);
-            }
+                        onUIChanged(zoom);
+                    }
 
-            @Override
-            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                ivTable.setImageDrawable(errorDrawable);
-            }
+                });
 
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-            }
-        };
-        ivTable.setTag(target);
-
-        try {
-            Picasso.get().load(url).into(target);
-        } catch (Exception e) {
-
-        }
     }
 
 }

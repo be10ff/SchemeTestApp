@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
@@ -19,10 +21,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
+//import com.squareup.picasso.MemoryPolicy;
+//import com.squareup.picasso.NetworkPolicy;
+//import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,47 +160,23 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
             public void onGlobalLayout() {
                 getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
-                Target target = new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        width = bitmap.getWidth();
-                        height = bitmap.getHeight();
-                        int viewWidth = getWidth();
-                        int viewHeight = getHeight();
-                        ivScheme.setImageBitmap(bitmap);
-                        Float res = Math.min(viewWidth / (float) width, viewHeight / (float) height);
-                        scaleFactor = res;
-                        minScaleFactor = res;
-                        onUIChanged();
-                    }
+                Glide.with(getContext())
+                        .load(section.getSectionURL())
+                        .into(new SimpleTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                width = resource.getIntrinsicWidth();
+                                height = resource.getIntrinsicHeight();
+                                int viewWidth = getWidth();
+                                int viewHeight = getHeight();
+                                ivScheme.setImageDrawable(resource);
+                                Float res = Math.min(viewWidth / (float) width, viewHeight / (float) height);
+                                scaleFactor = res;
+                                minScaleFactor = res;
+                                onUIChanged();
+                            }
 
-                    @Override
-                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                        ivScheme.setImageDrawable(errorDrawable);
-                    }
-
-//                    @Override
-//                    public void onBitmapFailed(Drawable errorDrawable) {
-//                        ivScheme.setImageBitmap(null);
-//                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                    }
-                };
-                ivScheme.setTag(target);
-                try {
-                    String url = section.getSectionURL();
-                    Picasso.get()
-//                            .with(context)
-                            .load(url)
-                            .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                            .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
-                            .into(target);
-                } catch (Exception e) {
-                    ivScheme.setImageBitmap(null);
-                }
+                        });
             }
         });
     }
