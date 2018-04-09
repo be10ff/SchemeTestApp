@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -180,7 +181,10 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
                 ivScheme.setTag(target);
                 try {
                     String url = section.getSectionURL();
-                    Picasso.with(context).load(url).into(target);
+                    Picasso.with(context)
+                            .load(url)
+                            .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                            .into(target);
                 } catch (Exception e) {
                     ivScheme.setImageBitmap(null);
                 }
