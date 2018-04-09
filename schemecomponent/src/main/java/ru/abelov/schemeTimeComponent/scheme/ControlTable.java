@@ -93,8 +93,8 @@ public class ControlTable extends FrameLayout {
             }
 
             @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                ivTable.setImageDrawable(errorDrawable);
             }
 
             @Override
@@ -105,7 +105,7 @@ public class ControlTable extends FrameLayout {
         ivTable.setTag(target);
 
         try {
-            Picasso.with(getContext()).load(url).into(target);
+            Picasso.get().load(url).into(target);
         } catch (Exception e) {
 
         }
