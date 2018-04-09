@@ -2,7 +2,6 @@ package ru.abelov.schemeTimeComponent.timepicker;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.LinearSnapHelper;
@@ -77,14 +76,14 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
     };
 
 
-    public HorizontalPicker(Context context, @Nullable AttributeSet attrs) {
+    public HorizontalPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
         internInit();
 
     }
 
-    public HorizontalPicker(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public HorizontalPicker(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs);
         internInit();

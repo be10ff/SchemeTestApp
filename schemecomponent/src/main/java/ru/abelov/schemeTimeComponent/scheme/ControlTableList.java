@@ -4,7 +4,7 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
+
 import android.support.v4.util.Pair;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
@@ -66,7 +66,7 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
 
     private OnTableSelectListener listener;
 
-    public ControlTableList(final Context context, @Nullable AttributeSet attrs) {
+    public ControlTableList(final Context context, AttributeSet attrs) {
         super(context, attrs);
         View v = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.table_list_view, this);
 
