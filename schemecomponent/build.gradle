@@ -27,20 +27,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-//    implementation 'com.android.support:appcompat-v7:26.1.0'
     compile ('com.android.support:recyclerview-v7:25.3.1') {
         exclude module: 'support-annotations'
     }
 
-//    testImplementation 'junit:junit:4.12'
-//    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-//    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
-//    //Rx
-//    compile 'io.reactivex:rxjava:1.1.6'
-//    compile 'io.reactivex:rxandroid:1.2.1'
-
-    // image download
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2'
