@@ -22,7 +22,11 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 //import com.squareup.picasso.MemoryPolicy;
 //import com.squareup.picasso.NetworkPolicy;
@@ -160,7 +164,15 @@ public class ControlTableList extends RelativeLayout implements OnTableSelectLis
             public void onGlobalLayout() {
                 getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
-                Glide.with(getContext())
+                RequestOptions requestOptions = RequestOptions
+                        .placeholderOf(android.R.color.transparent)
+                        .format(DecodeFormat.PREFER_RGB_565)
+//                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .onlyRetrieveFromCache(true);
+//                        .skipMemoryCache(true);
+
+                Target t  =Glide.with(getContext())
+                        .setDefaultRequestOptions(requestOptions)
                         .load(section.getSectionURL())
                         .into(new SimpleTarget<Drawable>() {
                             @Override
