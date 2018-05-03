@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 "            \"dayOfWeek\":\"1\",\n" +
                 "            \"work\":true,\n" +
                 "            \"orderBegin\":\"0900\",\n" +
-                "            \"orderEnd\":\"2300\",\n" +
+                "            \"orderEnd\":\"0900\",\n" +
                 "            \"breaks\":[\n" +
                 "               {\n" +
                 "                  \"breakBegin\":\"2100\",\n" +
@@ -126,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
                 "         {\n" +
                 "            \"dayOfWeek\":\"5\",\n" +
                 "            \"work\":true,\n" +
-                "            \"orderBegin\":\"1700\",\n" +
-                "            \"orderEnd\":\"2400\",\n" +
+                "            \"orderBegin\":\"0900\",\n" +
+                "            \"orderEnd\":\"0900\",\n" +
                 "            \"breaks\":[\n" +
                         "               {\n" +
                         "                  \"breakBegin\":\"2100\",\n" +
@@ -138,8 +138,8 @@ public class MainActivity extends AppCompatActivity {
                 "         {\n" +
                 "            \"dayOfWeek\":\"6\",\n" +
                 "            \"work\":true,\n" +
-                "            \"orderBegin\":\"0000\",\n" +
-                "            \"orderEnd\":\"0700\",\n" +
+                "            \"orderBegin\":\"0900\",\n" +
+                "            \"orderEnd\":\"0900\",\n" +
                 "            \"breaks\":[\n" +
                         "               {\n" +
                         "                  \"breakBegin\":\"2100\",\n" +
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 "            \"dayOfWeek\":\"1\",\n" +
                 "            \"work\":true,\n" +
                 "            \"orderBegin\":\"0900\",\n" +
-                "            \"orderEnd\":\"2300\",\n" +
+                "            \"orderEnd\":\"0900\",\n" +
                 "            \"breaks\":[\n" +
                 "               {\n" +
                 "                  \"breakBegin\":\"1100\",\n" +
@@ -162,8 +162,8 @@ public class MainActivity extends AppCompatActivity {
                 "         {\n" +
                 "            \"dayOfWeek\":\"2\",\n" +
                 "            \"work\":true,\n" +
-                "            \"orderBegin\":\"1000\",\n" +
-                "            \"orderEnd\":\"2200\",\n" +
+                "            \"orderBegin\":\"0900\",\n" +
+                "            \"orderEnd\":\"0900\",\n" +
                 "            \"breaks\":[\n" +
                 "               {\n" +
                 "                  \"breakBegin\":\"1200\",\n" +
@@ -174,8 +174,8 @@ public class MainActivity extends AppCompatActivity {
                 "         {\n" +
                 "            \"dayOfWeek\":\"2\",\n" +
                 "            \"work\":true,\n" +
-                "            \"orderBegin\":\"1000\",\n" +
-                "            \"orderEnd\":\"2200\",\n" +
+                "            \"orderBegin\":\"0900\",\n" +
+                "            \"orderEnd\":\"0900\",\n" +
                 "            \"breaks\":[\n" +
                 "               {\n" +
                 "                  \"breakBegin\":\"1200\",\n" +
@@ -186,8 +186,8 @@ public class MainActivity extends AppCompatActivity {
                 "         {\n" +
                 "            \"dayOfWeek\":\"3\",\n" +
                 "            \"work\":false,\n" +
-                "            \"orderBegin\":\"--\",\n" +
-                "            \"orderEnd\":\"--\",\n" +
+                "            \"orderBegin\":\"0900\",\n" +
+                "            \"orderEnd\":\"0900\",\n" +
                 "            \"breaks\":[\n" +
                         "               {\n" +
                         "                  \"breakBegin\":\"2100\",\n" +

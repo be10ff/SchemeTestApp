@@ -52,6 +52,9 @@ public class TableStatusData {
 
         openTime = getWorkingTimeToday(stringDate2Long(getSchedule().getOrderBegin(), store.getTimeFormat(), 1000 * 60 * 60 * 8));
         closeTime = getWorkingTimeToday(stringDate2Long(getSchedule().getOrderEnd(), store.getTimeFormat(), 1000 * 60 * 60 * 23));
+        if(closeTime <= openTime){
+            closeTime += AlarmManager.INTERVAL_DAY;
+        }
 
         if(orderStart > closeTime){
             this.currentDate += AlarmManager.INTERVAL_DAY;
