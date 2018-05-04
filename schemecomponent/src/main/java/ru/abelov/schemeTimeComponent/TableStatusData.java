@@ -45,6 +45,15 @@ public class TableStatusData {
 
 
     public TableStatusData(long currentDate, IStore store, IUser user, long orderStart, long interval, long delay, int politics, String timeFormat) {
+
+        Calendar origin = (Calendar)Calendar.getInstance().clone();
+        origin.setTimeInMillis(this.currentDate);
+
+        Calendar current = (Calendar)Calendar.getInstance().clone();
+        current.setTimeInMillis(currentDate);
+
+        boolean isNextDay = current.get(Calendar.DAY_OF_YEAR) > origin.get(Calendar.DAY_OF_YEAR) || current.get(Calendar.YEAR) > origin.get(Calendar.YEAR);
+
         this.currentDate = currentDate;
         this.store = store;
         this.delay = delay;
@@ -64,6 +73,10 @@ public class TableStatusData {
 //
 //            this.orderStart = openTime;
 //        }
+        if(isNextDay ){
+            this.orderStart = openTime;
+        }
+
         while(this.orderStart + interval > closeTime){
             this.orderStart -= interval;
         }
