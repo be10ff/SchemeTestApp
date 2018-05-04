@@ -56,14 +56,15 @@ public class TableStatusData {
             closeTime += AlarmManager.INTERVAL_DAY;
         }
 //        orderStart
+        this.orderStart = orderStart;
         if(currentDate + interval > closeTime){
             this.currentDate += AlarmManager.INTERVAL_DAY;
             openTime = getWorkingTimeToday(stringDate2Long(getSchedule().getOrderBegin(), store.getTimeFormat(), 1000 * 60 * 60 * 8));
             closeTime = getWorkingTimeToday(stringDate2Long(getSchedule().getOrderEnd(), store.getTimeFormat(), 1000 * 60 * 60 * 23));
 
+            this.orderStart = openTime;
         }
 
-        this.orderStart = orderStart;
         this.interval = interval;
         this.politics = politics;
         this.orderStart = openTime + this.interval * (Math.round((this.orderStart - openTime) / this.interval));
