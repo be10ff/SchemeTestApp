@@ -64,6 +64,9 @@ public class TableStatusData {
 //
 //            this.orderStart = openTime;
 //        }
+        while(this.orderStart + interval > closeTime){
+            this.orderStart -= interval;
+        }
 
         this.interval = interval;
         this.politics = politics;
