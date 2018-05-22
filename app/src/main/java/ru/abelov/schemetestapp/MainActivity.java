@@ -15,11 +15,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import ru.abelov.schemeTimeComponent.entity.IDaySchedule;
 import ru.abelov.schemeTimeComponent.entity.ISection;
 import ru.abelov.schemeTimeComponent.entity.IStatus;
 import ru.abelov.schemeTimeComponent.entity.IStore;
 import ru.abelov.schemeTimeComponent.entity.ITable;
 import ru.abelov.schemeTimeComponent.entity.IUser;
+import ru.abelov.schemeTimeComponent.room.DayScheduleDAO;
+import ru.abelov.schemeTimeComponent.room.ScheduleDb;
+import ru.abelov.schemeTimeComponent.room.entity.DayScheduleEntity;
 import ru.abelov.schemeTimeComponent.scheme.ControlTableList;
 import ru.abelov.schemeTimeComponent.OnTableSelectListener;
 import ru.abelov.schemeTimeComponent.TableStatusData;
@@ -38,12 +42,14 @@ public class MainActivity extends AppCompatActivity {
 
     private Unbinder unbinder;
 
+    ScheduleDb db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
-
+        db = App.getInstance().getDatabase();
         init();
     }
 
@@ -1480,6 +1486,12 @@ public class MainActivity extends AppCompatActivity {
 
         Calendar c = (Calendar) Calendar.getInstance();
 //        c.set(Calendar.HOUR_OF_DAY, 5);
+
+        DayScheduleDAO dao = db.dayScheduleDAO();
+
+        for(IDaySchedule entity : store.getSchedule().getSchedule()){
+            dao.insert(new DayScheduleEntity(entity));
+        }
 
         data = new TableStatusData(
                 c.getTimeInMillis(),
